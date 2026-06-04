@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "09708734-f17a-4d8b-bdbd-015b24e635f8",
+  "path": "outlines",
+  "path_key": "outlines",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "16-prompt-engineering/outlines",
+    "branch": null
+  }
+}

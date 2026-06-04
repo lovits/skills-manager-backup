@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "7c5b56b8-02f8-47ae-a7bc-7d4b42fd50d9",
+  "path": "fine-tuning-openvla-oft",
+  "path_key": "fine-tuning-openvla-oft",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "18-multimodal/openvla-oft",
+    "branch": null
+  }
+}

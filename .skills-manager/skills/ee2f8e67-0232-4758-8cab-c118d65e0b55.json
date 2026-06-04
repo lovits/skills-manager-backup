@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "ee2f8e67-0232-4758-8cab-c118d65e0b55",
+  "path": "speculative-decoding",
+  "path_key": "speculative-decoding",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "19-emerging-techniques/speculative-decoding",
+    "branch": null
+  }
+}

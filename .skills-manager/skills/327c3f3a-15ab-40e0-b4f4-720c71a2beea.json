@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "327c3f3a-15ab-40e0-b4f4-720c71a2beea",
+  "path": "segment-anything-model",
+  "path_key": "segment-anything-model",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "18-multimodal/segment-anything",
+    "branch": null
+  }
+}

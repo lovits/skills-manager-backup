@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "f7dc4a44-68a5-4f13-a37d-540b2884002b",
+  "path": "ray-train",
+  "path_key": "ray-train",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "08-distributed-training/ray-train",
+    "branch": null
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "f5ffcb95-5500-4606-b6c1-8d07490774d7",
+  "path": "training-llms-megatron",
+  "path_key": "training-llms-megatron",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "08-distributed-training/megatron-core",
+    "branch": null
+  }
+}

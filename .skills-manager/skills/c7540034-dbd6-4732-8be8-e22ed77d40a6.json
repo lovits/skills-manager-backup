@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "c7540034-dbd6-4732-8be8-e22ed77d40a6",
+  "path": "modal-serverless-gpu",
+  "path_key": "modal-serverless-gpu",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "09-infrastructure/modal",
+    "branch": null
+  }
+}

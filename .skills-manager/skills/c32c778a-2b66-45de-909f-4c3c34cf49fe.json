@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "c32c778a-2b66-45de-909f-4c3c34cf49fe",
+  "path": "rwkv-architecture",
+  "path_key": "rwkv-architecture",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "01-model-architecture/rwkv",
+    "branch": null
+  }
+}

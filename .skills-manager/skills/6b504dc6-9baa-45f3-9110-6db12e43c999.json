@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "6b504dc6-9baa-45f3-9110-6db12e43c999",
+  "path": "knowledge-distillation",
+  "path_key": "knowledge-distillation",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "19-emerging-techniques/knowledge-distillation",
+    "branch": null
+  }
+}

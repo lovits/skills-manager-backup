@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "8e11358b-2168-45ef-b6ab-33ea4f62136a",
+  "path": "gptq",
+  "path_key": "gptq",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "10-optimization/gptq",
+    "branch": null
+  }
+}

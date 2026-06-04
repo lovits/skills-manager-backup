@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "e641310a-b83a-495d-8424-96d624ee5d08",
+  "path": "mlflow",
+  "path_key": "mlflow",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "13-mlops/mlflow",
+    "branch": null
+  }
+}

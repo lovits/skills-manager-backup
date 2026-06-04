@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "b4059607-c150-4423-9b70-9a246f2d3f1b",
+  "path": "moe-training",
+  "path_key": "moe-training",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "19-emerging-techniques/moe-training",
+    "branch": null
+  }
+}

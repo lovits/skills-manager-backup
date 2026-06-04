@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "bac08e5c-87b7-4148-a9bb-4a91a6af7ee3",
+  "path": "autoresearch-2",
+  "path_key": "autoresearch-2",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "0-autoresearch-skill",
+    "branch": null
+  }
+}

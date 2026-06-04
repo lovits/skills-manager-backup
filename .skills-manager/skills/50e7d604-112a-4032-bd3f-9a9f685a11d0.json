@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "50e7d604-112a-4032-bd3f-9a9f685a11d0",
+  "path": "simpo-training",
+  "path_key": "simpo-training",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "06-post-training/simpo",
+    "branch": null
+  }
+}

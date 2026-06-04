@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "db88009f-e3eb-436d-b88d-128f876e8336",
+  "path": "constitutional-ai",
+  "path_key": "constitutional-ai",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "07-safety-alignment/constitutional-ai",
+    "branch": null
+  }
+}

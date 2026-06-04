@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "1c090ac6-5bbb-4785-ad14-8e44d972f248",
+  "path": "evaluating-llms-harness",
+  "path_key": "evaluating-llms-harness",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "11-evaluation/lm-evaluation-harness",
+    "branch": null
+  }
+}

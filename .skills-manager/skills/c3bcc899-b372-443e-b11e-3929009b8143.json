@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "c3bcc899-b372-443e-b11e-3929009b8143",
+  "path": "awq-quantization",
+  "path_key": "awq-quantization",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "10-optimization/awq",
+    "branch": null
+  }
+}

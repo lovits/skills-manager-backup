@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "7d959273-2a40-4c2a-bb19-846f33c7c23b",
+  "path": "peft-fine-tuning",
+  "path_key": "peft-fine-tuning",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "03-fine-tuning/peft",
+    "branch": null
+  }
+}

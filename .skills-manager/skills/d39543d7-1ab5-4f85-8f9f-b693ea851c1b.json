@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "d39543d7-1ab5-4f85-8f9f-b693ea851c1b",
+  "path": "prompt-guard",
+  "path_key": "prompt-guard",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "07-safety-alignment/prompt-guard",
+    "branch": null
+  }
+}

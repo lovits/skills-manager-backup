@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "78685a0f-3be5-469f-b734-79ca32e4c3c5",
+  "path": "openrlhf-training",
+  "path_key": "openrlhf-training",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "06-post-training/openrlhf",
+    "branch": null
+  }
+}

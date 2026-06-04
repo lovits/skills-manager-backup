@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "3343fe1c-2c29-4cb9-891d-f1d5e7e20d30",
+  "path": "langchain",
+  "path_key": "langchain",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "14-agents/langchain",
+    "branch": null
+  }
+}

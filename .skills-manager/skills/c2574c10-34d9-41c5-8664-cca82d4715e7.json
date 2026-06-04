@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "c2574c10-34d9-41c5-8664-cca82d4715e7",
+  "path": "llava",
+  "path_key": "llava",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "18-multimodal/llava",
+    "branch": null
+  }
+}

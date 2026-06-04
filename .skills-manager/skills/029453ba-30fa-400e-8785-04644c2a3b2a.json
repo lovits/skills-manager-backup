@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "029453ba-30fa-400e-8785-04644c2a3b2a",
+  "path": "sentence-transformers",
+  "path_key": "sentence-transformers",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "15-rag/sentence-transformers",
+    "branch": null
+  }
+}

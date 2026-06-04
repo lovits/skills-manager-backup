@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "0f85b373-a286-44aa-a1dc-5194e7ddadc0",
+  "path": "huggingface-tokenizers",
+  "path_key": "huggingface-tokenizers",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "02-tokenization/huggingface-tokenizers",
+    "branch": null
+  }
+}

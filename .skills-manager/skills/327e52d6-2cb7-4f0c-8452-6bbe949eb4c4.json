@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "327e52d6-2cb7-4f0c-8452-6bbe949eb4c4",
+  "path": "distributed-llm-pretraining-torchtitan",
+  "path_key": "distributed-llm-pretraining-torchtitan",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "01-model-architecture/torchtitan",
+    "branch": null
+  }
+}

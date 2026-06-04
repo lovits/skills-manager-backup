@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "924d9103-15c0-4fe8-a037-b7d65ea44773",
+  "path": "ml-training-recipes",
+  "path_key": "ml-training-recipes",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "10-optimization/ml-training-recipes",
+    "branch": null
+  }
+}

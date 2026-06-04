@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "0470a3a4-f486-48bf-a52e-1ba53b824f58",
+  "path": "hqq-quantization",
+  "path_key": "hqq-quantization",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "10-optimization/hqq",
+    "branch": null
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "397ab8ea-e6b0-4390-a1ed-45b43068bcf0",
+  "path": "audiocraft-audio-generation",
+  "path_key": "audiocraft-audio-generation",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "18-multimodal/audiocraft",
+    "branch": null
+  }
+}

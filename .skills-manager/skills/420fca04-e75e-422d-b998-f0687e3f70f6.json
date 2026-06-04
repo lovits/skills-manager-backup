@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "420fca04-e75e-422d-b998-f0687e3f70f6",
+  "path": "evolving-ai-agents",
+  "path_key": "evolving-ai-agents",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "14-agents/a-evolve",
+    "branch": null
+  }
+}

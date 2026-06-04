@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "a26698b0-580b-4e58-a579-36dfdf97d172",
+  "path": "clip",
+  "path_key": "clip",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "18-multimodal/clip",
+    "branch": null
+  }
+}

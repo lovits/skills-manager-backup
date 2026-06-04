@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "69230f9a-2960-4a60-aed8-28df4baf9edb",
+  "path": "phoenix-observability",
+  "path_key": "phoenix-observability",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "17-observability/phoenix",
+    "branch": null
+  }
+}

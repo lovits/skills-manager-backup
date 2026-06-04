@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "4a5709e9-886e-4e94-a8d6-bbeda633bac0",
+  "path": "sglang",
+  "path_key": "sglang",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "12-inference-serving/sglang",
+    "branch": null
+  }
+}

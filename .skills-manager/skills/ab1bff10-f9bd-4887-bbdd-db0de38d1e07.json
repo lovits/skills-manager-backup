@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "ab1bff10-f9bd-4887-bbdd-db0de38d1e07",
+  "path": "pytorch-fsdp2",
+  "path_key": "pytorch-fsdp2",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "08-distributed-training/pytorch-fsdp2",
+    "branch": null
+  }
+}

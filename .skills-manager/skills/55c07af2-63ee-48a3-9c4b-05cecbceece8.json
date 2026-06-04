@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "55c07af2-63ee-48a3-9c4b-05cecbceece8",
+  "path": "tensorrt-llm",
+  "path_key": "tensorrt-llm",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "12-inference-serving/tensorrt-llm",
+    "branch": null
+  }
+}

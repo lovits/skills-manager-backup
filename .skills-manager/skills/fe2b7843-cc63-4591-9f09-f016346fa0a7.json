@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "fe2b7843-cc63-4591-9f09-f016346fa0a7",
+  "path": "implementing-llms-litgpt",
+  "path_key": "implementing-llms-litgpt",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "01-model-architecture/litgpt",
+    "branch": null
+  }
+}

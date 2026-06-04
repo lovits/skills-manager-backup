@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "1412a00b-cc5b-4e85-b4a0-ac7ffe6600fb",
+  "path": "ara-compiler",
+  "path_key": "ara-compiler",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "22-agent-native-research-artifact/compiler",
+    "branch": null
+  }
+}

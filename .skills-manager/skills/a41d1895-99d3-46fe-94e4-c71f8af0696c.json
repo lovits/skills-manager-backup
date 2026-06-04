@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "a41d1895-99d3-46fe-94e4-c71f8af0696c",
+  "path": "quantizing-models-bitsandbytes",
+  "path_key": "quantizing-models-bitsandbytes",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "10-optimization/bitsandbytes",
+    "branch": null
+  }
+}

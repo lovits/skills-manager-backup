@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "b90954e9-82c6-4b19-966d-d8dd2cdf71af",
+  "path": "fine-tuning-serving-openpi",
+  "path_key": "fine-tuning-serving-openpi",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "18-multimodal/openpi",
+    "branch": null
+  }
+}

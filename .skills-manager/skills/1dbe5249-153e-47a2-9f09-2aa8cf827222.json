@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "1dbe5249-153e-47a2-9f09-2aa8cf827222",
+  "path": "verl-rl-training",
+  "path_key": "verl-rl-training",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "06-post-training/verl",
+    "branch": null
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "c2868ca2-e98d-4825-b89c-90de6f50efc6",
+  "path": "weights-and-biases",
+  "path_key": "weights-and-biases",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "13-mlops/weights-and-biases",
+    "branch": null
+  }
+}

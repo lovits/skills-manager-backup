@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "6a220db9-8d95-4049-ac6e-ede82383b24e",
+  "path": "stable-diffusion-image-generation",
+  "path_key": "stable-diffusion-image-generation",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "18-multimodal/stable-diffusion",
+    "branch": null
+  }
+}

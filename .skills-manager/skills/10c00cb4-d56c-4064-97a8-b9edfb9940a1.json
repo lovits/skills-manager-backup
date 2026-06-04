@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "10c00cb4-d56c-4064-97a8-b9edfb9940a1",
+  "path": "llama-factory",
+  "path_key": "llama-factory",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "03-fine-tuning/llama-factory",
+    "branch": null
+  }
+}

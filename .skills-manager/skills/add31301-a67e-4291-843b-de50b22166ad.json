@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "add31301-a67e-4291-843b-de50b22166ad",
+  "path": "langsmith-observability",
+  "path_key": "langsmith-observability",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "17-observability/langsmith",
+    "branch": null
+  }
+}

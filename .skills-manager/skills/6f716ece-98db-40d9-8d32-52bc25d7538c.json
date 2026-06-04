@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "6f716ece-98db-40d9-8d32-52bc25d7538c",
+  "path": "instructor",
+  "path_key": "instructor",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "16-prompt-engineering/instructor",
+    "branch": null
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "33d3984c-1353-4466-85c6-50b7b99fb370",
+  "path": "skypilot-multi-cloud-orchestration",
+  "path_key": "skypilot-multi-cloud-orchestration",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "09-infrastructure/skypilot",
+    "branch": null
+  }
+}

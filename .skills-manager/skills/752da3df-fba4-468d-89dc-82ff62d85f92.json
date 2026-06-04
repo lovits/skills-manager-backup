@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "752da3df-fba4-468d-89dc-82ff62d85f92",
+  "path": "brainstorming-research-ideas",
+  "path_key": "brainstorming-research-ideas",
+  "enabled": true,
+  "tags": [
+    "AI-Research"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Orchestra-Research/AI-Research-SKILLs",
+    "subpath": "21-research-ideation/brainstorming-research-ideas",
+    "branch": null
+  }
+}
