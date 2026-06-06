@@ -379,7 +379,7 @@ When a sub-skill stage fails or produces unacceptable output:
 4. Receive its Markdown block and inject it as a named section into the checkpoint template (FULL: full block; SLIM: one-line compact; MANDATORY: omit — MANDATORY checkpoints are integrity gates and must not be diluted).
 5. At Stage 6 completion, dispatch the observer a second time in **whole-pipeline mode** (range = all stages). Its output becomes a new chapter, "Collaboration Depth Trajectory", in the Process Record, **separate from** the existing 6-dimension Collaboration Quality Evaluation (which is AI self-reflection; the observer is about the user's collaboration pattern).
 
-**Cross-model cost and behaviour.** When `ARS_CROSS_MODEL` is set, re-dispatch `collaboration_depth_agent` on the secondary model. If any dimension score diverges by > 2 points between primary and secondary, append a `cross_model_divergence` block to the checkpoint section. **Never silently average cross-model scores.**
+**Cross-model cost and behaviour.** When `ARS_CROSS_MODEL` is set, do not re-dispatch automatically. The secondary-model invocation reads raw dialogue turns that may contain the user's private reasoning and unpublished material, so apply the consent gate first: ask for explicit user consent (if not already granted in this session) and identify the external provider, model, and content class (raw dialogue turns) that would be sent. The environment variable alone is not consent to upload that material. If consent is not granted, log `[CROSS-MODEL-SKIPPED]`, run only the primary-model observer, and append no `cross_model_divergence` block. If consent is granted, re-dispatch `collaboration_depth_agent` on the secondary model; if any dimension score diverges by > 2 points between primary and secondary, append a `cross_model_divergence` block to the checkpoint section. **Never silently average cross-model scores.** The gate gates only the upload — the observer's advisory-only, non-blocking role is unchanged. See `shared/cross_model_verification.md` for the consent boundary.
 
 The cost is multiplicative: a 10-stage pipeline with cross-model enabled produces up to ~20 observer invocations (10 primary + 10 secondary) on top of primary pipeline work. Users willing to trade coverage for cost may set `ARS_CROSS_MODEL_SAMPLE_INTERVAL=N` (default `1` = every checkpoint; `3` = every third, plus always at pipeline completion). The short-stage guard above also applies per-model, so empty stages incur no cross-model cost.
 
@@ -761,9 +761,9 @@ Spec: `docs/design/2026-05-17-ars-v3.9.0-cross-index-triangulation-measurement-s
 
 v3.9.0 extends the v3.7.3 contamination annotation channel with three new lookup-derived suffix shapes. The base 5-cell matrix is unchanged. The annotation rule expands as follows:
 
-**Trigger:** annotation fires when (base resolution ∈ {`ok`, `LOW-WARN`}) AND (`preprint_post_llm_inflection` is true OR any of `semantic_scholar_unmatched` / `openalex_unmatched` / `crossref_unmatched` is true). Entries with `contamination_signals` present but all fields false (computed-clean) produce no suffix — v3.7.3 behavior preserved.
+**Trigger:** annotation fires when (base resolution ∈ {`ok`, `LOW-WARN`}) AND (`preprint_post_llm_inflection` is true OR any of `semantic_scholar_unmatched` / `openalex_unmatched` / `crossref_unmatched` / `arxiv_unmatched` is true). Entries with `contamination_signals` present but all fields false (computed-clean) produce no suffix — v3.7.3 behavior preserved.
 
-**Compute k (triangulation count):** k = count of `*_unmatched` fields with value `true`, over fields that are present. Absent fields are excluded (per spec R-L3-2-C: absent ≠ false). k_max = count of `*_unmatched` fields that are present (0-3).
+**Compute k (triangulation count):** k = count of `*_unmatched` fields with value `true`, over fields that are present. Absent fields are excluded (per spec R-L3-2-C: absent ≠ false). k_max = count of `*_unmatched` fields that are present (0-4 — the v3.10/v3.11 Delta-1 `arxiv_unmatched` field is the fourth index; `arxiv_unmatched` is absent on citations with no arXiv ID, so k_max stays ≤ 3 for those, per the v3.9.0 absent≠false rule).
 
 **Suffix shape table:**
 
@@ -773,24 +773,36 @@ v3.9.0 extends the v3.7.3 contamination annotation channel with three new lookup
 | `ok` / `LOW-WARN` | true | 0 | any | — | `CONTAMINATED-PREPRINT` |
 | `ok` / `LOW-WARN` | false / absent | 1 | 1 | `semantic_scholar_unmatched` | `CONTAMINATED-UNMATCHED` (v3.7.3 legacy) |
 | `ok` / `LOW-WARN` | true | 1 | 1 | `semantic_scholar_unmatched` | `CONTAMINATED-PREPRINT+UNMATCHED` (v3.7.3 legacy) |
+| `ok` / `LOW-WARN` | false / absent | 1 | 1 | `arxiv_unmatched` | `CONTAMINATED-ARXIV-UNMATCHED` (v3.10/v3.11 Delta-1) |
+| `ok` / `LOW-WARN` | true | 1 | 1 | `arxiv_unmatched` | `CONTAMINATED-PREPRINT+ARXIV-UNMATCHED` (v3.10/v3.11 Delta-1) |
 | `ok` / `LOW-WARN` | false / absent | 1 | 1 | `openalex_unmatched` or `crossref_unmatched` | `CONTAMINATED-COVERAGE-NOISE` |
 | `ok` / `LOW-WARN` | true | 1 | 1 | `openalex_unmatched` or `crossref_unmatched` | `CONTAMINATED-PREPRINT+COVERAGE-NOISE` |
-| `ok` / `LOW-WARN` | false / absent | 1 | 2-3 | — | `CONTAMINATED-COVERAGE-NOISE` |
-| `ok` / `LOW-WARN` | true | 1 | 2-3 | — | `CONTAMINATED-PREPRINT+COVERAGE-NOISE` |
-| `ok` / `LOW-WARN` | false / absent | 2 | 2-3 | — | `CONTAMINATED-PARTIAL-UNMATCH` |
-| `ok` / `LOW-WARN` | true | 2 | 2-3 | — | `CONTAMINATED-PREPRINT+PARTIAL-UNMATCH` |
+| `ok` / `LOW-WARN` | false / absent | 1 | 2-4 | — | `CONTAMINATED-COVERAGE-NOISE` |
+| `ok` / `LOW-WARN` | true | 1 | 2-4 | — | `CONTAMINATED-PREPRINT+COVERAGE-NOISE` |
+| `ok` / `LOW-WARN` | false / absent | 2 | 2-4 | — | `CONTAMINATED-PARTIAL-UNMATCH` |
+| `ok` / `LOW-WARN` | true | 2 | 2-4 | — | `CONTAMINATED-PREPRINT+PARTIAL-UNMATCH` |
 | `ok` / `LOW-WARN` | false / absent | 3 | 3 | — | `CONTAMINATED-TRIANGULATION-UNMATCHED` |
 | `ok` / `LOW-WARN` | true | 3 | 3 | — | `CONTAMINATED-PREPRINT+TRIANGULATION-UNMATCHED` |
+| `ok` / `LOW-WARN` | false / absent | 3 | 4 | — | `CONTAMINATED-PARTIAL-UNMATCH` |
+| `ok` / `LOW-WARN` | true | 3 | 4 | — | `CONTAMINATED-PREPRINT+PARTIAL-UNMATCH` |
+| `ok` / `LOW-WARN` | false / absent | 4 | 4 | — | `CONTAMINATED-QUADRANGULATION-UNMATCHED` |
+| `ok` / `LOW-WARN` | true | 4 | 4 | — | `CONTAMINATED-PREPRINT+QUADRANGULATION-UNMATCHED` |
 
-**Composition order:** `PREPRINT` token first, triangulation token second, joined by `+`. The canonical token order list is `[PREPRINT, UNMATCHED | COVERAGE-NOISE | PARTIAL-UNMATCH | TRIANGULATION-UNMATCHED]`.
+**v3.10/v3.11 Delta-1 extension (arXiv fourth index):** `arxiv_unmatched` is the fourth lookup field, present only on citations carrying an arXiv ID (absent ≠ false). Two new single-named tiers join the v3.9.0 tiers:
+- **`CONTAMINATED-ARXIV-UNMATCHED` (k=1, k_max=1, present field = `arxiv_unmatched`)** — the arxiv-only carve-out, mirroring the `semantic_scholar_unmatched` legacy carve-out exactly: it fires ONLY when arxiv is the SOLE present-and-unmatched index. An arxiv-only k=1 with k_max ≥ 2 (arxiv unmatched, other present indexes matched) stays `CONTAMINATED-COVERAGE-NOISE` like every other k=1 k_max ≥ 2 case — "single-index" means k_max=1, not merely k=1 (consistent with the v3.9.0 s2 carve-out being k_max=1-only).
+- **`CONTAMINATED-QUADRANGULATION-UNMATCHED` (k=4, k_max=4)** — all four indexes unmatched, the four-index analogue of `CONTAMINATED-TRIANGULATION-UNMATCHED` (which stays k=3 k_max=3, all-three-unmatched). A k=3 k_max=4 (three of four unmatched) is `CONTAMINATED-PARTIAL-UNMATCH`, NOT triangulation — the strong all-N name is reserved for k = k_max = N (the v3.9.0 "observation not inferred cause" rule extended to N=4).
 
-**Gate semantics:** All v3.9.0 suffixes are advisory. The terminal gate refusal list is NOT extended. `formatter_agent.md` pass-through allowlist MUST extend from 3 v3.7.3 suffixes to 9 (3 legacy + 6 v3.9.0) per R-L3-2-E. `/ars-mark-read` behavior is unchanged.
+**Composition order:** `PREPRINT` token first, triangulation token second, joined by `+`. The canonical token order list is `[PREPRINT, UNMATCHED | ARXIV-UNMATCHED | COVERAGE-NOISE | PARTIAL-UNMATCH | TRIANGULATION-UNMATCHED | QUADRANGULATION-UNMATCHED]`.
+
+**Gate semantics:** All v3.9.0 AND Delta-1 suffixes are advisory. The terminal gate refusal list is NOT extended. `formatter_agent.md` pass-through allowlist MUST extend from 3 v3.7.3 suffixes to 9 (v3.9.0) to 13 (Delta-1: + the 4 arXiv tokens) per R-L3-2-E. `/ars-mark-read` behavior is unchanged.
 
 Example markers:
 - `<!--ref:smith2024 LOW-WARN CONTAMINATED-COVERAGE-NOISE-->` — single-index unmatched, k_max ≥ 2.
-- `<!--ref:smith2024 ok CONTAMINATED-PARTIAL-UNMATCH-->` — two-of-three unmatched.
+- `<!--ref:smith2024 ok CONTAMINATED-PARTIAL-UNMATCH-->` — two-of-three (or three-of-four) unmatched.
 - `<!--ref:smith2024 LOW-WARN CONTAMINATED-TRIANGULATION-UNMATCHED-->` — all three indexes unmatched.
-- `<!--ref:smith2024 LOW-WARN CONTAMINATED-PREPRINT+TRIANGULATION-UNMATCHED-->` — preprint heuristic + k=3.
+- `<!--ref:smith2024 LOW-WARN CONTAMINATED-ARXIV-UNMATCHED-->` — arxiv-only (k_max=1) unmatched.
+- `<!--ref:smith2024 LOW-WARN CONTAMINATED-QUADRANGULATION-UNMATCHED-->` — all four indexes unmatched.
+- `<!--ref:smith2024 LOW-WARN CONTAMINATED-PREPRINT+QUADRANGULATION-UNMATCHED-->` — preprint heuristic + k=4.
 
 ## Cite-Time Provenance Finalizer — v3.10 extension (terminal policy layer)
 
@@ -844,9 +856,25 @@ When `terminal_policies.contamination_triangulation == strict_articles_only`, k=
 
 The finalizer reads `venue_type` / `venue_type_provenance` only as DECLARED entry metadata — it MUST NOT infer venue_type from the free-form `venue` string or from any index `type` field (R-L3-2-D).
 
+### Citation-existence terminal promotion under strict (v3.11 / C-V6)
+
+The `terminal_policies.citation_existence` key (enum `{advisory, strict}`, spec `docs/design/2026-05-21-v3.10-182-promote-citation-gate-spec.md` §2 Delta 3 + INVARIANT C-V6) governs the `lookup_verified == false` verdict from the `citation_verification_summary[]` aggregate (Delta 4). It inherits the SAME opt-in terminal model as `contamination_triangulation` — default advisory, opt-in `strict` — and introduces NO second hard-block philosophy. The finalizer is the sole policy evaluator here too; no new control-plane writer is added (this is the L4-question-3 boundary, not L1 hidden culling — the verdict is external-API factual, the flagged citation stays visible and annotated, and `resolver_outcomes` makes the criterion fully auditable).
+
+The verdict input is the narrowed-`false` (C-V6(a)): `lookup_verified == false` ONLY when at least one ID-keyed (DOI / arXiv-ID) resolver returned `unmatched` with no `matched` — a provably-bogus identifier. A title-only `unmatched` with no resolvable identifier reduces to `unresolvable` (a coverage gap — regional / non-English / pre-digital paper indexed nowhere), NEVER `false`. The finalizer consumes the verdict the Delta 4 reducer already computed; it does NOT re-derive it.
+
+- **Detection is unconditional (C-V6(e)):** the `citation_verification_summary[]` aggregate is always populated, so a `false` verdict is always visible THERE — in the aggregate, with full `resolver_outcomes`. **Unlike `contamination_triangulation`, `citation_existence` adds NO advisory suffix token to the ref marker** (there is no `CITATION-FALSE`-style suffix, and none is needed): the "why" lives in the `citation_verification_summary[]` aggregate (and, under `strict`, additionally in the terminal token's `reason=lookup_verified_false`). The `citation_existence` key governs ONLY whether the `false` row additionally promotes to a *terminal* marker (`strict`) or stays aggregate-only advisory (default).
+- **`advisory` (default, C-V6(b)):** a `false` row stays visible in the `citation_verification_summary[]` aggregate (where it is `/ars-mark-read`-ack-able) and the pipeline completes normally. The ref **marker is byte-equivalent to v3.9.x** — no terminal token, no new suffix (per-key absence ⟹ advisory; a whole-object-absent passport ⟹ advisory for this key, so a v3.10 passport behaves identically to v3.9.x — no back-compat break).
+- **`strict` (opt-in, C-V6(c)):** when `terminal_policies.citation_existence == strict` AND the ref's `lookup_verified == false`, the finalizer appends the terminal token `TERMINAL-BLOCK severity=HIGH-BLOCK policy=citation_existence reason=lookup_verified_false mode=strict policy_hash=<slug>` to the ref marker. This is **additive** — it does not alter the base-status token (the `false` "why" survives in `reason=lookup_verified_false` + the aggregate, NOT in a marker advisory suffix). The block is terminal — NOT `/ars-mark-read`-ack-able. There is NO per-hit override token; the human decision is the opt-in itself (do I run this corpus under `citation_existence=strict`?).
+
+Example (strict, ID-keyed false): `<!--ref:bogus2024 ok TERMINAL-BLOCK severity=HIGH-BLOCK policy=citation_existence reason=lookup_verified_false mode=strict policy_hash=citation_existence.strict-->` — the marker carries the base-status (`ok`) and the terminal token; there is no citation-existence advisory suffix between them (contrast contamination, whose `CONTAMINATED-*` suffix DOES occupy the advisory slot).
+
+**Gating output = the existing Stage-5 formatter hard gate (C-V6(d)).** ARS has no separate "ready-for-review" state machine; the equivalent is the existing Stage-4→5 boundary where the finalizer runs and `formatter_agent` then refuses. Under `strict`, the appended `TERMINAL-BLOCK severity=HIGH-BLOCK` token is refused by `formatter_agent`'s generic rule-11 (any unresolved `severity=HIGH-BLOCK` inside a `<!--ref:...-->` marker), so the draft cannot reach final formatted output — i.e. a draft with a provably-bogus citation cannot reach the human-review deliverable. This gate is therefore symmetric with `contamination_triangulation == strict`: same terminal token mechanism, same generic formatter refusal, NO new refusal rule and NO formatter policy re-evaluation (Invariant 13; the formatter stays STAMP-ONLY). Under default `advisory` the `false` row stays an aggregate advisory and the run completes — avoiding the withdrawn "Zombie pipeline" advisory-yet-unconditionally-blocking contradiction. **Scope note (symmetric with all terminal policies):** the gate is the *output* boundary, exactly as `contamination_triangulation=strict`. A mid-pipeline raw draft (Stage 2–4, before the Stage-4→5 finalizer pass) is not a gated deliverable in any policy mode; the `false` signal is still visible in the always-populated aggregate from the moment detection runs, and the terminal block is what stops it reaching the *formatted* output a human reviews. This is the shipped definition of the gate, not a new hole introduced here.
+
+**Recompute each pass; nothing cached (C-V6(h)).** Both the marker severity (strict terminal vs advisory) and the output gate are recomputed by the finalizer at every finalization pass — they are pure functions of the CURRENT `terminal_policies` state and the CURRENT `citation_verification_summary[]`, never cached status. Flipping `citation_existence` advisory→strict between passes re-stamps markers and re-applies the gate on the next finalize; a `resume_from_passport` / reset that re-enters finalization re-evaluates against the resumed summary. A previously-granted output (a draft that reached formatting) is never inherited across a resume without re-passing the gate under the then-current policy — there is no path where a stale certification survives a citation that resolves to `false` under `strict`. This is the same idempotency-on-current-evidence discipline as the v3.7.1 finalizer matrix above.
+
 ### Manual-entry exemption preserved
 
-Manual entries (`obtained_via: manual`) carry no `*_unmatched` fields (v3.9.0 §3.1 not-rule), so k=3 is structurally unreachable for them — no terminal promotion can fire (Invariant 8). Preserved across all policy modes.
+Manual entries (`obtained_via: manual`) carry no `*_unmatched` fields (v3.9.0 §3.1 not-rule), so k=3 is structurally unreachable for them — no terminal promotion can fire (Invariant 8). For `citation_existence`, a manual entry's resolvers are all `skipped`, so its `lookup_verified` reduces to `unresolvable` (never `false`), and the strict citation-existence block is likewise unreachable (C-V6(f)). Preserved across all policy modes.
 
 ### `/ars-mark-read` and HIGH-BLOCK
 
@@ -855,6 +883,8 @@ Manual entries (`obtained_via: manual`) carry no `*_unmatched` fields (v3.9.0 §
 ### Audit trail (v3.10 update)
 
 The per-pass resolution counts gain a `terminal_blocked[]` bucket recording each ref slug promoted to a terminal block, with its `policy` / `reason` / `mode`. **Non-additive (R2-P2):** a single strict k=3 ref increments BOTH its advisory-signal count (e.g. CONTAMINATED-TRIANGULATION-UNMATCHED) AND the `terminal_blocked[]` bucket, but it remains ONE unique affected ref — any downstream aggregate "total affected refs" MUST dedupe by ref slug across the advisory and terminal buckets, NEVER sum them.
+
+**Multiple terminal policies co-emit independently (C-V6(g)).** A single ref that violates BOTH `contamination_triangulation == strict` (k=3) AND `citation_existence == strict` (`lookup_verified == false`) carries **two** `TERMINAL-BLOCK` tokens in its marker — one per `policy=` value (`policy=contamination_triangulation` and `policy=citation_existence`) — alongside the shared advisory slot. The two tokens are additive at the marker, but the ref is counted ONCE in any "total affected refs" aggregate: dedupe by ref slug across BOTH policy buckets (the same non-additive rule as above, now spanning policies). The `policy_hash` slug encodes both non-advisory keys, sorted by key name: `policy_hash=citation_existence.strict+contamination_triangulation.strict`. The formatter's generic "refuse on any unresolved `severity=HIGH-BLOCK`" rule already handles N tokens without per-policy enumeration — no per-policy refusal rule is added.
 
 ---
 
