@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "f40295c8-095a-4331-bcd7-2b633c0e4185",
+  "path": "security-and-hardening",
+  "path_key": "security-and-hardening",
+  "enabled": true,
+  "tags": [
+    "Agent skills"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/addyosmani/agent-skills",
+    "subpath": "skills/security-and-hardening",
+    "branch": null
+  }
+}

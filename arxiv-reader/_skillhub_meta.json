@@ -2,7 +2,7 @@
   "name": "ArXiv论文精读",
   "installedAt": 1779726262716,
   "source": "marketplace",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "skillId": "skill_2053081352472563712",
   "examples_zh": [
     "深度阅读 arxiv.org/abs/2303.08774 这篇论文",

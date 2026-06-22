@@ -3,9 +3,9 @@ name: arxiv-reader
 description: 利用python，指定某个arxiv_id/url， 基于 LLM Agent 对这篇arxiv论文进行分类与深度阅读，直接print打印阅读笔记
 description_zh: "基于 LLM 的 ArXiv 论文分类与深度阅读工具"
 description_en: "LLM-based ArXiv paper classification and in-depth reading tool"
-version: 1.0.3
+version: 1.0.4
 metadata:
-  openclaw:
+  clawdbot:
     requires:
       bins:
         - uv
@@ -15,10 +15,29 @@ metadata:
         - LLM_TEMPERATURE
         - LLM_MAX_TOKENS
     primaryEnv: LLM_API_KEY
-display_name: "arxiv-reader"
-display_name_en: "arxiv-reader"
+tags:
+  - arxiv
+  - paper-reading
+  - single-paper
+display_name: "ArXiv论文精读"
+display_name_en: "Arxiv Reader"
 visibility: "public"
 ---
+
+## 凭证与配置优先级（Credentials）
+
+本 Skill 依赖 `LLM_API_KEY` 和 `LLM_BASE_URL` 的配置。来源优先级如下：
+1. 平台已注入的环境变量
+2. `.env` 文件
+3. 用户手动提供
+
+**注意**：当平台环境或 `.env` 中已存在可用配置时，**不得再向用户索取 Key**，应直接静默使用现有配置。
+
+## 单次容量限制（Capacity Limits）
+
+- **单次处理量**：一次调用仅限处理 **1 篇**论文。
+- **多篇请求处理**：若用户请求同时解读多篇论文，必须拆分为多次独立调用，并逐篇打印中间结果。
+- **超时与长输出**：由于论文解析耗时较长且输出 token 量大，遇到超长输出需求时建议分段处理。请主动建议用户拆分任务，避免“同时深度解读多篇”导致执行卡死或超时。
 
 ## 快速开始
 

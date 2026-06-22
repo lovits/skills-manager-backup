@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "ebd2140e-286b-4fdc-9af2-173d88d948e8",
+  "path": "deprecation-and-migration",
+  "path_key": "deprecation-and-migration",
+  "enabled": true,
+  "tags": [
+    "Agent skills"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/addyosmani/agent-skills",
+    "subpath": "skills/deprecation-and-migration",
+    "branch": null
+  }
+}

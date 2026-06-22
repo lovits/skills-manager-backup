@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "5d980d05-343b-45e3-8103-a93a22d516cb",
+  "path": "pre-execution-business-dev",
+  "path_key": "pre-execution-business-dev",
+  "enabled": true,
+  "tags": [
+    "DIY"
+  ],
+  "source": {
+    "type": "local",
+    "ref": null,
+    "subpath": null,
+    "branch": null
+  }
+}

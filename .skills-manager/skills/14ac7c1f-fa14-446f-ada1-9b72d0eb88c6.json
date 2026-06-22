@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "14ac7c1f-fa14-446f-ada1-9b72d0eb88c6",
+  "path": "domain-modeling",
+  "path_key": "domain-modeling",
+  "enabled": true,
+  "tags": [
+    "matt skills"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/mattpocock/skills",
+    "subpath": "skills/engineering/domain-modeling",
+    "branch": null
+  }
+}

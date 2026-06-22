@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "ec452396-d67b-4090-b0b7-efaa607b47d2",
+  "path": "doubt-driven-development",
+  "path_key": "doubt-driven-development",
+  "enabled": true,
+  "tags": [
+    "Agent skills"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/addyosmani/agent-skills",
+    "subpath": "skills/doubt-driven-development",
+    "branch": null
+  }
+}

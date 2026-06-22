@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "c0947738-b1c4-4415-bb12-acf242cfa811",
+  "path": "ubiquitous-language",
+  "path_key": "ubiquitous-language",
+  "enabled": true,
+  "tags": [
+    "matt skills"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/mattpocock/skills",
+    "subpath": "skills/deprecated/ubiquitous-language",
+    "branch": null
+  }
+}

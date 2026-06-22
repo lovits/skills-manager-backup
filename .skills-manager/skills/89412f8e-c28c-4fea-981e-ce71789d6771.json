@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "89412f8e-c28c-4fea-981e-ce71789d6771",
+  "path": "debugging-and-error-recovery",
+  "path_key": "debugging-and-error-recovery",
+  "enabled": true,
+  "tags": [
+    "Agent skills"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/addyosmani/agent-skills",
+    "subpath": "skills/debugging-and-error-recovery",
+    "branch": null
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "e007714a-8e79-4e7e-8506-4a4789b58b96",
+  "path": "interview-me",
+  "path_key": "interview-me",
+  "enabled": true,
+  "tags": [
+    "Agent skills"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/addyosmani/agent-skills",
+    "subpath": "skills/interview-me",
+    "branch": null
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "6620d3e2-a211-4682-84d3-9e64765efcb5",
+  "path": "design-an-interface",
+  "path_key": "design-an-interface",
+  "enabled": true,
+  "tags": [
+    "matt skills"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/mattpocock/skills",
+    "subpath": "skills/deprecated/design-an-interface",
+    "branch": null
+  }
+}

@@ -10,6 +10,7 @@
     "cursor": true,
     "gemini_cli": false,
     "github_copilot": true,
+    "hermes": true,
     "openclaw": true,
     "opencode": true,
     "workbuddy": true

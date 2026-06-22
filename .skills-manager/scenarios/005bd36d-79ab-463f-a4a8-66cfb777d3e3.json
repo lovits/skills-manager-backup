@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "scenario_id": "005bd36d-79ab-463f-a4a8-66cfb777d3e3",
+  "name": "Agent skills",
+  "description": null,
+  "icon": "briefcase",
+  "sort_order": 999
+}

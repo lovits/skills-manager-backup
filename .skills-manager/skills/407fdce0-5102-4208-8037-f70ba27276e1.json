@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "407fdce0-5102-4208-8037-f70ba27276e1",
+  "path": "observability-and-instrumentation",
+  "path_key": "observability-and-instrumentation",
+  "enabled": true,
+  "tags": [
+    "Agent skills"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/addyosmani/agent-skills",
+    "subpath": "skills/observability-and-instrumentation",
+    "branch": null
+  }
+}

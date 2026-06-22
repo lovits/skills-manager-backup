@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "3350cd24-a7bd-45f1-8d93-08c1bba06e2e",
+  "path": "edit-article",
+  "path_key": "edit-article",
+  "enabled": true,
+  "tags": [
+    "matt skills"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/mattpocock/skills",
+    "subpath": "skills/personal/edit-article",
+    "branch": null
+  }
+}

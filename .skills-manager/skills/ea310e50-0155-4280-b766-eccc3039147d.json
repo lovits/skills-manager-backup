@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "ea310e50-0155-4280-b766-eccc3039147d",
+  "path": "resolving-merge-conflicts",
+  "path_key": "resolving-merge-conflicts",
+  "enabled": true,
+  "tags": [
+    "matt skills"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/mattpocock/skills",
+    "subpath": "skills/engineering/resolving-merge-conflicts",
+    "branch": null
+  }
+}

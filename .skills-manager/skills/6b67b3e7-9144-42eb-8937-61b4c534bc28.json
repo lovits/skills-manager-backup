@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "6b67b3e7-9144-42eb-8937-61b4c534bc28",
+  "path": "planning-and-task-breakdown",
+  "path_key": "planning-and-task-breakdown",
+  "enabled": true,
+  "tags": [
+    "Agent skills"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/addyosmani/agent-skills",
+    "subpath": "skills/planning-and-task-breakdown",
+    "branch": null
+  }
+}

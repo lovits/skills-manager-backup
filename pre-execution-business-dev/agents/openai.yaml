@@ -1,0 +1,7 @@
+interface:
+  display_name: "执行前业务开发"
+  short_description: "执行前的需求、设计与计划路由"
+  default_prompt: "使用 $pre-execution-business-dev 在写代码之前先完成路由判断、需求澄清、架构与技术选型提问，并交接给 writing-plans。"
+
+policy:
+  allow_implicit_invocation: true
