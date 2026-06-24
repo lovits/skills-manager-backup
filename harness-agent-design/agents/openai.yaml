@@ -1,0 +1,4 @@
+interface:
+  display_name: "Harness Agent Design"
+  short_description: "Adaptive harness architect that classifies agent families before opening branch-specific design questions."
+  default_prompt: "Help me design a harness for my agent idea. Start with the core intake, classify the likely harness family early, and only open the branches that are actually justified."

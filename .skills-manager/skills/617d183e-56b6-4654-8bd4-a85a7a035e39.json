@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "617d183e-56b6-4654-8bd4-a85a7a035e39",
+  "path": "harness-agent-design",
+  "path_key": "harness-agent-design",
+  "enabled": true,
+  "tags": [
+    "DIY"
+  ],
+  "source": {
+    "type": "local",
+    "ref": null,
+    "subpath": null,
+    "branch": null
+  }
+}

@@ -6,7 +6,7 @@
   "tools": {
     "antigravity": true,
     "claude_code": true,
-    "codex": true,
+    "codex": false,
     "cursor": true,
     "gemini_cli": true,
     "github_copilot": true,
