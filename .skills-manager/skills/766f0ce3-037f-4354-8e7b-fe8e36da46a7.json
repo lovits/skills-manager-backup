@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "766f0ce3-037f-4354-8e7b-fe8e36da46a7",
+  "path": "chinese-novelist",
+  "path_key": "chinese-novelist",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/PenglongHuang/chinese-novelist-skill",
+    "subpath": null,
+    "branch": null
+  }
+}
