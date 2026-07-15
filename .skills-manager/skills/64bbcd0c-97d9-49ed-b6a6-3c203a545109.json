@@ -5,7 +5,8 @@
   "path_key": "pptx",
   "enabled": true,
   "tags": [
-    "Anthropic Skills"
+    "Anthropic Skills",
+    "PPT"
   ],
   "source": {
     "type": "git",

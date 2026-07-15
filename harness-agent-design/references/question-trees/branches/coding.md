@@ -15,16 +15,26 @@ Useful options:
 - `C. Owner loop plus helper reviewer`
 - `D. Full delegated coding runtime`
 
-Then keep the branch open until at least these coding decisions are stable:
+Keep the branch open until these decisions are stable:
 
 1. What execution boundary matters most: read, write, shell, git, network?
 2. Should planning be read-only?
 3. What state must survive a long coding session?
 4. How are verification signals fed back into the loop?
 5. When is a helper justified instead of one stronger owner loop?
+6. Does input need durable admission before it becomes model-visible history?
+7. Should queued prompts wait for a safe provider-turn boundary?
+8. Is permission posture a real state machine, or just a generic confirm
+   prompt?
+9. Should helper work be inspectable child sessions or invisible background
+   work?
+10. Which mechanism is actually next: permissions, todo/plan, subagent,
+    compaction, memory, tasks, background work, or MCP?
+11. If several mechanisms are desired, which one solves today's pressure and
+    which ones should be deferred?
 
 Do not leave this branch until loop shape, execution boundary, and verification
-posture are explicit.
+are explicit.
 
 ## Borrow From
 

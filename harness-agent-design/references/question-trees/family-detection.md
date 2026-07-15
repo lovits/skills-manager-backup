@@ -2,8 +2,8 @@
 
 ## Goal
 
-Classify the likely harness family early so later questions are branch-driven,
-not checklist-driven.
+Classify the likely family early so later questions are branch-driven, not
+checklist-driven.
 
 ## Expected Depth
 
@@ -11,6 +11,9 @@ not checklist-driven.
 - If the case is clean, move on after one confirming question or synthesis.
 - If the case is mixed or ambiguous, ask 1 additional discriminating question
   before opening the first branch.
+- If later answers materially change the session owner, autonomy surface, or
+  highest-cost mistake, revise the family read out loud instead of preserving
+  the earlier classification for consistency.
 
 ## Primary-Family Rule
 
@@ -21,7 +24,7 @@ When more than one family is present, choose the primary family by asking:
 3. Which branch must be resolved first before the others make sense?
 
 The primary family is the one that answers those questions most strongly.
-Everything else becomes secondary pressure until proven otherwise.
+Everything else is secondary pressure until proven otherwise.
 
 ## Candidate Families
 
@@ -50,6 +53,14 @@ Signals:
 - shared core across CLI and remote surfaces
 - fallback strategy matters
 
+### Role-Specialized Multi-Agent Pipeline
+
+Signals:
+
+- the domain naturally decomposes into stable specialist roles
+- analyst, debate, judge, or approval stages are part of correctness
+- resumable staged execution matters more than dynamic child spawning
+
 ### Lightweight or Teaching Harness
 
 Signals:
@@ -70,7 +81,7 @@ Default read:
 Reason:
 
 - session ownership, routing, reinjection, and recovery must be decided before
-  you can safely place coding actions inside the loop
+  coding actions can safely live inside the loop
 
 First branch:
 
@@ -91,7 +102,7 @@ Default read:
 
 Reason:
 
-- do not let future abstraction outrank present routing/lifecycle pressure
+- do not let future abstraction outrank present routing pressure
 
 First branch:
 
@@ -121,6 +132,24 @@ Then:
 - `governance`
 - `providerized` only if backend replacement is already real
 
+### Role-specialized pipeline plus always-on
+
+Default read:
+
+- primary family: `always-on or gateway` only if routing and session ownership
+  are still undefined
+- otherwise primary family: `role-specialized multi-agent pipeline`
+
+Reason:
+
+- do not let a staged analyst graph outrank unresolved control-plane ownership,
+  but once routing is fixed the role graph should own the deeper runtime shape
+
+First branch:
+
+- `always-on` if channel/session ownership is still unclear
+- otherwise `multi-agent`
+
 ### Lightweight plus anything heavier
 
 Default read:
@@ -143,8 +172,7 @@ Then:
 
 ## Tie-Break Questions
 
-If two families still look equally plausible, ask one of these and let the
-answer decide:
+If two families still look equally plausible, ask one of these:
 
 - "What must keep working when no human is actively watching it?"
 - "If we get the first version wrong, is the bigger failure bad execution,
@@ -161,3 +189,10 @@ State:
 - one heavier family that is not justified yet
 - why this family wins the first-branch priority
 - what branch should be opened second if the first branch resolves as expected
+
+If the family read changes later, also state:
+
+- previous family read
+- new family read
+- the evidence that forced the change
+- the new first branch priority

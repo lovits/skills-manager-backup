@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Read this file for every request. It defines the skill's base worldview.
+Read this file for every request. It defines the skill's baseline worldview.
 
 ## Harness-first principles
 

@@ -50,7 +50,7 @@ Avoid when:
 
 ### Dual-surface assistant
 
-One harness core exposed through two interfaces, often CLI plus gateway.
+One harness core exposed through two surfaces, often CLI plus gateway.
 
 Use when:
 

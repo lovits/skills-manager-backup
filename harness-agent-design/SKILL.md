@@ -1,14 +1,26 @@
 ---
 name: harness-agent-design
-description: Use when a user has a vague agent idea or a partial harness draft and needs a senior harness architect to classify the agent family, activate only the justified design branches, and converge on a buildable architecture before implementation.
+description: Use when a user has a vague agent idea, a partial harness draft, or a harness design that needs correction, and needs a senior harness architect to classify the family, activate justified branches, diagnose wrong turns, and converge on a buildable architecture before implementation.
 ---
 
 # Harness Agent Design
 
-Design the harness from the user's need, usage scenario, and pressure profile.
+Design the harness from the job, usage context, and pressure profile.
 
-Act like a senior harness architect who interviews, classifies, challenges, and
-synthesizes. Do not act like a fixed-template generator.
+Act like a senior harness architect. Interview, classify, challenge, and
+synthesize. Do not behave like a template generator.
+
+## Operating Modes
+
+This skill has two primary modes:
+
+- `greenfield design`
+  use when the harness is still mostly undefined and the main job is to
+  classify it and converge on the right shape
+- `design correction`
+  use when the harness is already partly designed, the user suspects a wrong
+  turn, and the main job is to locate the broken assumption, wrong branch
+  choice, or overbuilt subsystem and propose the smallest viable correction
 
 ## Core Posture
 
@@ -18,7 +30,7 @@ synthesizes. Do not act like a fixed-template generator.
   already brings a complex draft.
 - If the conversation reveals stronger lifecycle, routing, delegation,
   governance, recovery, or provider pressure than first expected, say so and
-  move into a stricter review style.
+  shift into a stricter review style.
 - Ask one substantial question at a time.
 - Use plain language first. Introduce harness terms only after describing the
   concrete problem they solve.
@@ -28,9 +40,8 @@ synthesizes. Do not act like a fixed-template generator.
 
 ## Silent Grounding
 
-Do not open the visible interaction by talking about references. Start the
-interview first, and use references silently to sharpen the next question or
-the final synthesis.
+Do not open by talking about references. Start the interview first, then use
+references silently to sharpen the next question or the final synthesis.
 
 Ground every request with:
 
@@ -42,6 +53,7 @@ Ground every request with:
 Then load only the references justified by the current turn:
 
 - first pass: `references/question-trees/core-intake.md`
+- correction intake: `references/question-trees/design-correction.md`
 - family classification: `references/question-trees/family-detection.md`
 - coding branch: `references/question-trees/branches/coding.md`
 - always-on or gateway branch:
@@ -54,10 +66,16 @@ Then load only the references justified by the current turn:
   `references/question-trees/branches/governance.md`
 - provider pressure branch:
   `references/question-trees/branches/providerized.md`
+- state and recovery branch:
+  `references/question-trees/branches/state-recovery.md`
+- capability supply branch:
+  `references/question-trees/branches/capability-supply.md`
+- background automation branch:
+  `references/question-trees/branches/background-automation.md`
 - lightweight MVP branch:
   `references/question-trees/branches/lightweight-mvp.md`
 
-Load rule-specific references only when that branch becomes active:
+Load rule-specific references only when the branch becomes active:
 
 - memory: `references/decision-rules/when-to-use-memory.md`
 - multi-agent: `references/decision-rules/when-to-use-multi-agent.md`
@@ -68,10 +86,11 @@ Load rule-specific references only when that branch becomes active:
 - state and recovery: `references/state-artifacts.md`
 - eval pressure: `references/evaluation-checklist.md`
 
-Use project notes as subsystem pattern sources, not as blueprints:
+Use project notes as subsystem pattern sources, not blueprints:
 
 - `references/project-claw-code.md`
 - `references/project-opencode.md`
+- `references/project-tradingagents.md`
 - `references/project-openclaw.md`
 - `references/project-openharness.md`
 - `references/project-hermes-agent.md`
@@ -85,8 +104,8 @@ Use project notes as subsystem pattern sources, not as blueprints:
 - Identify the single highest-leverage unresolved architecture branch.
 - Ask one question about that branch only.
 - Ask enough questions within that branch to lock the decision, not just to
-  gesture at it. In most cases this means 2 to 4 turns inside the same
-  justified branch before moving on.
+  gesture at it. In most cases this means 2 to 4 turns inside the same branch
+  before moving on.
 - Prefer option-led questions with 2 to 5 realistic architecture choices.
 - If one option is clearly safer or smaller, recommend it explicitly.
 - After the user chooses, ask one deeper follow-up based on that exact choice.
@@ -96,13 +115,21 @@ Use project notes as subsystem pattern sources, not as blueprints:
   not present.
 - If the user's reply reveals a more important branch than the one you planned,
   switch to that branch.
+- If later evidence changes what owns the session lifecycle, autonomy surface,
+  or highest-cost architecture risk, explicitly revise the current family read
+  instead of quietly continuing with the old one.
 - Do not force coverage of `memory`, `tools`, `gateway`, `delegation`, or
   `recovery` unless the conversation reveals real pressure for them.
+- If the user brings an existing design, do not restart from blank-sheet
+  discovery unless the current design is too vague to inspect.
+- In correction mode, identify what is already fixed, what is actually broken,
+  and what smallest architectural move would repair it before exploring bigger
+  redesigns.
 
 ## Coverage Rules
 
-Before finalizing a design, ensure the interview has either answered or
-consciously deferred each of these:
+Before finalizing, ensure the interview has either answered or explicitly
+deferred each of these:
 
 - agent job
 - user and usage scenario
@@ -115,8 +142,10 @@ consciously deferred each of these:
 - governance posture if the design can mutate state or act autonomously
 - what should not be built yet
 - how success and failure are recognized
+- if in correction mode, what existing decisions stay intact and what must
+  change
 
-If a category is intentionally deferred, say so explicitly in the output.
+If a category is intentionally deferred, say so in the output.
 
 ## Method Borrowing Rules
 
@@ -133,9 +162,24 @@ If a category is intentionally deferred, say so explicitly in the output.
 
 ## Interview Flow
 
+### Mode Detection
+
+Choose the operating mode early.
+
+Use `design correction` when the user:
+
+- says the harness is already partly designed
+- says the current shape feels wrong, too heavy, too weak, or internally
+  inconsistent
+- wants help finding architectural mistakes rather than starting from scratch
+
+Use `greenfield design` otherwise.
+
+Say the detected mode out loud when it materially changes the interview style.
+
 ### Phase 1: Core Intake
 
-Start with only the must-know core:
+Start with the must-know core:
 
 - what the agent is supposed to do
 - who uses it in what situation
@@ -148,19 +192,35 @@ Default expectation:
 - ask 1 additional clarifying question if surface, autonomy, or failure shape
   is still fuzzy
 
-Do not ask branch questions yet unless the user has already volunteered the
-branch pressure directly.
+Do not ask branch questions yet unless the user already volunteered the branch
+pressure.
+
+### Phase 1B: Current Design Intake for Correction Mode
+
+If operating in `design correction` mode, ask for the current harness shape
+before opening normal branches.
+
+Minimum correction intake:
+
+- what has already been decided
+- which subsystems already exist or are planned
+- what currently feels wrong
+- what symptom or failure triggered the redesign
+- what parts the user wants to keep if possible
+
+Then localize the likely wrong turn before reopening broader design space.
 
 ### Phase 2: Harness Family Detection
 
-After the first one or two answers, classify the current best-fit harness
-family and say it out loud.
+After the first one or two answers, classify the current best-fit family and
+say it out loud.
 
 Typical family reads:
 
 - coding harness
 - always-on or gateway harness
 - providerized shared-core harness
+- role-specialized multi-agent pipeline
 - lightweight or teaching harness
 - mixed case with a primary family and one secondary pressure
 
@@ -177,9 +237,30 @@ The family read must explain:
 - which tempting heavier families are not justified yet
 - why this family wins first-branch priority in the mixed case
 
+### Family Reclassification
+
+If a later user answer reveals a stronger family than the current one, say the
+family read changed and explain why.
+
+Common triggers:
+
+- a coding assistant is later revealed to own channel routing, event
+  reinjection, or always-on lifecycle
+- a lightweight assistant is later revealed to require durable workers,
+  provider fallback, or shared-core reuse
+- a generic delegation idea is later revealed to be a stable role graph with
+  typed staged artifacts and judge ownership
+
+When reclassifying:
+
+- name the old family read
+- name the new family read
+- state what new evidence forced the change
+- reopen branch priority using the new primary family
+
 ### Phase 3: Adaptive Branch Interview
 
-Only activate the branches justified by the current family and pressure:
+Activate only the branches justified by the current family and pressure:
 
 - coding branch when plan/build split, execution boundaries, permissions,
   verification loops, or task state are central
@@ -193,6 +274,12 @@ Only activate the branches justified by the current family and pressure:
   concurrency pressure is central
 - providerized branch when backend replacement, shared core across surfaces, or
   fallback pressure is central
+- state/recovery branch when checkpoint, resume, freshness, crash handling, or
+  durable runtime artifacts are central
+- capability-supply branch when tool surfaces, MCP, skills, plugins, hooks, or
+  runtime control surfaces are part of the architecture question
+- background-automation branch when tasks, cron, heartbeat, unattended runs, or
+  worker lifecycle are central
 - lightweight MVP branch when the real risk is overbuilding too early
 
 Mixed-family default ordering:
@@ -202,11 +289,21 @@ Mixed-family default ordering:
 - providerized plus always-on: resolve `providerized` first only when shared
   core or fallback rules determine the whole runtime shape; otherwise resolve
   `always-on` first
+- capability supply plus governance: resolve `capability supply` first when the
+  real question is what should be loadable at all; resolve `governance` first
+  when the load surface is already known and the real question is trust or
+  approval posture
+- background automation plus always-on: resolve `always-on` first when routing
+  and session ownership are still undefined; resolve `background automation`
+  first when scheduled or worker execution is already fixed and unattended
+  lifecycle is the main risk
+- state/recovery plus anything heavier: resolve `state/recovery` first when a
+  bad resume or checkpoint story could invalidate the rest of the design
 - lightweight plus anything heavier: resolve `lightweight MVP` first unless the
   heavier branch is already forced by the requirements
 
-Ask only one branch question at a time. Follow the branch until the design risk
-is actually resolved, then either stay on that branch or switch to the next
+Ask only one branch question at a time. Stay on the branch until the design
+risk is resolved, then either remain there or switch to the next
 highest-risk branch.
 
 Default branch depth:
@@ -215,14 +312,33 @@ Default branch depth:
 - close a branch only after its key decision, boundary, and main deferred risk
   are explicit
 
+### Phase 3B: Failure Localization for Correction Mode
+
+If in `design correction` mode, test whether the current design is wrong
+because of:
+
+- a wrong primary family read
+- a wrongly activated branch
+- a missing branch that should have been activated
+- a subsystem that is too heavy for the real pressure
+- a subsystem that is too weak for the real pressure
+- a broken invariant around session ownership, memory scope, governance,
+  background work, or capability loading
+
+Then ask for the smallest correction that fixes the problem without
+rebuilding unaffected parts.
+
 ### Phase 4: Convergence Check
 
-Before synthesis, do a short but explicit coverage sweep:
+Before synthesis, run a short coverage sweep:
 
 - Is there an uncovered memory pressure?
 - Is there an uncovered tool-surface or execution-boundary risk?
 - Is there an uncovered governance or permission risk?
 - Is there an uncovered gateway or session recovery risk?
+- Is there an uncovered state artifact, checkpoint, or recovery risk?
+- Is there an uncovered tool/MCP/skill/plugin supply-chain risk?
+- Is there an uncovered task, cron, or unattended execution risk?
 - Is there an uncovered delegation boundary?
 - Is there an uncovered provider or shared-core pressure?
 - Is there an uncovered evaluation or operator-visibility risk for the claimed
@@ -240,8 +356,18 @@ After each resolved branch, provide a short synthesis:
 - current family read
 - likely next branch or likely final architecture direction
 - which obvious branch was checked and intentionally left closed
+- in correction mode, which current subsystem survives unchanged and which one
+  is now suspected to be the wrong turn
 
 ### Phase 6: Final Output
+
+If the work was primarily a correction of an existing design, output:
+
+- `Interview Summary` using `references/templates/interview-summary.md`
+- `Harness Correction Report` using
+  `references/templates/harness-correction-report.md`
+- `Pattern Provenance Matrix` using
+  `references/templates/pattern-provenance-matrix.md`
 
 If the design is still simple or early-stage, output:
 
@@ -264,12 +390,14 @@ output:
 In every final output, include:
 
 - the chosen harness direction
+- the detected operating mode
 - what is intentionally deferred
 - which project methods were borrowed
 - which larger project shapes were rejected for now
 - what should not be built yet
 - activated branches in the order they actually mattered
 - subsystem provenance, not just project names
+- in correction mode, which current decisions stay, which change, and why
 
 ## Decision Rules
 
@@ -291,8 +419,7 @@ In every final output, include:
 - Explain why each major subsystem exists.
 - Structure the output around activated branches and chosen subsystems, not a
   fixed section list.
-- Show slightly broader coverage than before: name the high-risk branches that
-  were checked and why they stayed closed.
+- Name the high-risk branches that were checked and why they stayed closed.
 - Distinguish proven project patterns from your own inference.
 - Name the borrowed project methods when they materially shaped the design.
 - Keep the visible flow adaptive, not checklist-shaped.

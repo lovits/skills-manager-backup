@@ -21,36 +21,39 @@
 - state transitions
 - event sources
 - plan/build or other mode splits if any
+- shared session or control-plane abstraction if multiple surfaces exist
+- provider-compat or structured-output contract if stages depend on it
 
 ## 4. Activated Pressure Ledger
 
-List only the branches that actually mattered, in priority order.
+List activated branches only, in priority order.
 
-For each activated branch include:
+For each branch include:
 
 - pressure that triggered it
 - decision made
 - borrowed methods
 - heavier pattern rejected for now
 
-Then list closed branches only if they were tempting but unjustified.
+List closed branches only if they were tempting but unjustified.
 
-Also include a short `Checked but Closed` list when a branch was examined
-briefly but intentionally not activated further.
+Add a short `Checked but Closed` list only for branches that were examined
+briefly, then intentionally left closed.
 
 ## 5. Activated Subsystem Specs
 
-Create one subsection per activated subsystem, for example:
+Create one subsection per activated subsystem. Example headings:
 
 - `Governance and permissions`
 - `Memory and durable facts`
 - `Gateway and session reinjection`
 - `Delegation and child ownership`
 - `Provider and fallback strategy`
-- `Background tasks and recovery`
+- `State artifacts and recovery`
+- `Capability supply and control surfaces`
+- `Background tasks and unattended automation`
 
-Only include the subsections justified by the design. For each subsection
-state:
+Include only justified subsections. For each one state:
 
 - why the subsystem exists
 - what concrete mechanism is used
@@ -61,8 +64,12 @@ state:
 
 - durable artifacts
 - session continuity model
+- session keys, scope, and freshness rules if sessions span channels or workers
+- checkpoint or staged-resume model if the runtime is graph-like or long-lived
 - compaction or context-reset behavior if relevant
+- pre-turn and post-turn memory lifecycle if memory is host-managed
 - restart, interruption, and recovery rules
+- task/team approval protocol if background workers or swarms exist
 - inspectability and operator visibility
 
 ## 7. Evaluation and Failure Checks

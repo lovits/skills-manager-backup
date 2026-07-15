@@ -32,8 +32,7 @@
 
 ## Activated Branch Order
 
-List only the branches that actually mattered, in the order they were
-resolved.
+List only the branches that mattered, in the order they were resolved.
 
 For each branch:
 

@@ -2,9 +2,9 @@
 
 ## Borrowed Methods
 
-| Subsystem | Borrowed method | Source project | Why it fits here | Evidence anchor |
-| --- | --- | --- | --- | --- |
-| subsystem | method | source | rationale | file or mechanism |
+| Subsystem | Borrowed runtime contract | Source project | Why it fits here | Activation trigger | Evidence anchor |
+| --- | --- | --- | --- | --- | --- |
+| subsystem | contract or mechanism | source | rationale | pressure that justified it | file or mechanism |
 
 ## Rejected Heavier Patterns
 
@@ -21,6 +21,9 @@
 | tool governance | yes/no | branch | conclusion |
 | delegation | yes/no | branch | conclusion |
 | provider replacement | yes/no | branch | conclusion |
+| state or recovery correctness | yes/no | branch | conclusion |
+| capability supply or extension trust | yes/no | branch | conclusion |
+| background or unattended execution | yes/no | branch | conclusion |
 
 ## Gaps and Deferred Surfaces
 

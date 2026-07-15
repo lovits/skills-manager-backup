@@ -10,7 +10,7 @@
   "source": {
     "type": "git",
     "ref": "https://github.com/mattpocock/skills",
-    "subpath": "skills/in-progress/review",
+    "subpath": "skills",
     "branch": null
   }
 }

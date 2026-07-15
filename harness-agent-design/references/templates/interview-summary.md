@@ -15,7 +15,7 @@
 
 ## Activated Branches
 
-List only the branches that were actually activated, in the order they became
+List only the branches that were activated, in the order they became
 important.
 
 For each branch include:

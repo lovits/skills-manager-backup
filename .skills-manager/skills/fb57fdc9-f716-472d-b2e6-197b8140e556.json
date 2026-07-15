@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "fb57fdc9-f716-472d-b2e6-197b8140e556",
+  "path": "harness-agent-design",
+  "path_key": "harness-agent-design",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/lovits/harness-agent-design",
+    "subpath": "skills/harness-agent-design",
+    "branch": null
+  }
+}

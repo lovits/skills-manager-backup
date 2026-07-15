@@ -66,15 +66,6 @@ Determine the entry point from the user's first message. Use the following keywo
 
    When `pending_decision` is set on the boundary entry, replace `<next>` with `(pending user decision)` in the template above. The actual next stage is determined after the user picks a branch (step 8). After the user picks, print the resolved `next_stage` from the matched option as part of the decision-prompt flow.
 
-   Example rendering (no `pending_decision`, no override):
-   ```
-   ### Resume Acknowledged
-   - Hash: a3f2b7c9d0e1
-   - Source session: sess-42 (generated 2026-04-23T14:00:00Z)
-   - Recovered stage: 2
-   - Next stage: 2.5
-   ```
-
    Example rendering (`pending_decision` set, resolved after user chose `revise`):
    ```
    ### Resume Acknowledged
@@ -162,14 +153,9 @@ consecutive_continue_count: integer (reset to 0 when user chooses any action oth
 3. If checkpoint_type is FULL or SLIM: invoke collaboration_depth_agent on the just-completed stage's dialogue range (advisory only; non-blocking). If MANDATORY: SKIP this step — integrity gates must not be diluted. See "Collaboration Depth Observer" section below.
 4. Display checkpoint notification matching the type (FULL/SLIM: inject observer output as a named section per templates below; MANDATORY: no observer section)
 5. Wait for user response
-5. Based on user response, decide:
-   - "continue" "yes" -> increment consecutive_continue_count; proceed to next stage
-   - "pause" "stop here" -> reset count; pause pipeline
-   - "adjust" "change settings" -> reset count; let user adjust settings
-   - "view progress" -> reset count; display Dashboard
-   - "redo" "roll back" -> reset count; return to previous stage
-   - "skip" -> only allowed for explicitly skippable non-critical stages; never for integrity or failure-mode blocks
-   - "abort" "terminate" -> reset count; terminate pipeline
+6. Act on the response per "Checkpoint Confirmation Semantics" (the single authority for
+   response handling); update consecutive_continue_count per "User Engagement Tracking"
+   (increment on "continue", reset on any other action)
 ```
 
 **IRON RULE**: the user's response handling above considers only the checkpoint's metrics, deliverables, and integrity results. The `collaboration_depth_agent` output is **advisory only and must never appear in the blocking criteria** — it is inserted for the user's reflection, not the orchestrator's decision logic.
@@ -326,8 +312,9 @@ Users respond to checkpoint prompts with one of these commands. The orchestrator
 | User Input | Action | State Change |
 |------------|--------|-------------|
 | `continue` / `yes` | Proceed to next stage | `pipeline_state` -> next stage's `in_progress` |
-| `pause` | Pause pipeline; can resume later | `pipeline_state` = `paused`; all materials preserved |
-| `adjust` | Allow user to modify next stage's mode or parameters | Prompt user for adjustments; apply before proceeding |
+| `pause` / `stop here` | Pause pipeline; can resume later | `pipeline_state` = `paused`; all materials preserved |
+| `adjust` / `change settings` | Allow user to modify next stage's mode or parameters | Prompt user for adjustments; apply before proceeding |
+| `view progress` | Display the pipeline Dashboard, then re-prompt the same checkpoint | No state change |
 | `redo` / `roll back` | Return to previous stage and re-execute | Roll back `pipeline_state` to previous stage; increment version label |
 | `skip` | Skip next stage (only explicitly skippable non-critical stages) | Validate skip is safe (see below); proceed only if the stage is marked skippable |
 | `abort` / `terminate` | Terminate pipeline entirely | `pipeline_state` = `aborted`; save all materials with current versions |
@@ -513,7 +500,7 @@ Reference helper: `scripts/slr_lineage.py` `emit(stages, incoming_slr_lineage)`.
 
 | Transition | Transferred Materials | Schema Reference | Transfer Method |
 |-----------|----------------------|-----------------|----------------|
-| Stage 1 -> 2 | RQ Brief, Annotated Bibliography, Synthesis Report | Schema 1 (RQ Brief), Schema 2 (Bibliography), Schema 3 (Synthesis) | deep-research handoff protocol |
+| Stage 1 -> 2 | RQ Brief, Methodology Blueprint, Annotated Bibliography, Synthesis Report | Schema 1 (RQ Brief), Schema 2 (Bibliography), Schema 3 (Synthesis) | deep-research handoff protocol |
 | Stage 2 -> 2.5 | Complete Paper Draft | Schema 4 (Paper Draft) | Pass to integrity_verification_agent |
 | Stage 2.5 -> 3 | Verified Paper Draft + Integrity Report | Schema 4 + Schema 5 (Integrity Report) | Pass to reviewer (with verification report attached). Carry forward `experiment_provenance[]` + `experiment_alignment_results[]` + `experiment_intake_declaration` (#260) |
 | Stage 3 -> **coaching** -> 4 | Editorial Decision, Revision Roadmap, 5 Review Reports | Schema 6 (Review Report), Schema 7 (Revision Roadmap) | **First Socratic dialogue** -> academic-paper revision mode input |
@@ -588,7 +575,7 @@ Request state_tracker_agent to produce the Progress Dashboard when needed.
 
 ## Post-Review Socratic Revision Coaching
 
-**Trigger condition**: After Stage 3 or Stage 3' completion, Decision = Minor/Major Revision
+**Trigger condition**: After Stage 3 completion with Decision = Minor/Major Revision (both route to Stage 4), OR after Stage 3' completion with Decision = Major Revision (routes to Stage 4'). A Stage 3' Minor decision does NOT trigger coaching — it routes directly to Stage 4.5 per the state machine (`Accept|Minor -> 4.5`), so there is no coaching step on that path.
 **Executor**: academic-paper-reviewer's eic_agent (Phase 2.5)
 **Purpose**: Help users understand review comments and plan revision strategy, rather than passively receiving a change list
 
@@ -625,7 +612,7 @@ Request state_tracker_agent to produce the Progress Dashboard when needed.
 - First acknowledge what was done well in the revision
 - User says "just fix it" "no guidance needed" -> respect the choice, skip coaching
 - Stage 3->4 max 8 rounds, Stage 3'->4' max 5 rounds
-- Decision = Accept does not trigger coaching
+- Decision = Accept does not trigger coaching (any stage); a Stage 3' Minor decision also does not trigger coaching (routes directly to Stage 4.5)
 
 ---
 

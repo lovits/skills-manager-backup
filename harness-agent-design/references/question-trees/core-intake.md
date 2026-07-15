@@ -2,7 +2,7 @@
 
 ## Goal
 
-Get enough facts to classify the harness well before any branch decision.
+Get enough facts to classify the harness before opening branches.
 
 ## Ask First
 
