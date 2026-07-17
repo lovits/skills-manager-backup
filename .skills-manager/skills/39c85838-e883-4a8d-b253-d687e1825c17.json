@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "skill_id": "39c85838-e883-4a8d-b253-d687e1825c17",
+  "path": "awesome-novel",
+  "path_key": "awesome-novel",
+  "enabled": true,
+  "tags": [
+    "write"
+  ],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/modoojunko/awesome-novel-skill",
+    "subpath": null,
+    "branch": null
+  }
+}

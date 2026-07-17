@@ -4,7 +4,9 @@
   "path": "chinese-novelist",
   "path_key": "chinese-novelist",
   "enabled": true,
-  "tags": [],
+  "tags": [
+    "write"
+  ],
   "source": {
     "type": "git",
     "ref": "https://github.com/PenglongHuang/chinese-novelist-skill",
