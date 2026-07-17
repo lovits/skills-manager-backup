@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "b1c63775-b7b8-4160-babb-ab317b1846f0",
+  "path": "webnovel-review",
+  "path_key": "webnovel-review",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/lingfengQAQ/webnovel-writer",
+    "subpath": "webnovel-writer/skills/webnovel-review",
+    "branch": null
+  }
+}

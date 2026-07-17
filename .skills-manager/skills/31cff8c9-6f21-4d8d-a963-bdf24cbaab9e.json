@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "31cff8c9-6f21-4d8d-a963-bdf24cbaab9e",
+  "path": "webnovel-doctor",
+  "path_key": "webnovel-doctor",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/lingfengQAQ/webnovel-writer",
+    "subpath": "webnovel-writer/skills/webnovel-doctor",
+    "branch": null
+  }
+}

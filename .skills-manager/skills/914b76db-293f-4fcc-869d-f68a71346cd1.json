@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "914b76db-293f-4fcc-869d-f68a71346cd1",
+  "path": "webnovel-plan",
+  "path_key": "webnovel-plan",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/lingfengQAQ/webnovel-writer",
+    "subpath": "webnovel-writer/skills/webnovel-plan",
+    "branch": null
+  }
+}
