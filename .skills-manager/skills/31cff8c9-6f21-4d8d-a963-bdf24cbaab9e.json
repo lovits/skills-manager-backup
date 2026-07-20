@@ -4,7 +4,9 @@
   "path": "webnovel-doctor",
   "path_key": "webnovel-doctor",
   "enabled": true,
-  "tags": [],
+  "tags": [
+    "write"
+  ],
   "source": {
     "type": "git",
     "ref": "https://github.com/lingfengQAQ/webnovel-writer",

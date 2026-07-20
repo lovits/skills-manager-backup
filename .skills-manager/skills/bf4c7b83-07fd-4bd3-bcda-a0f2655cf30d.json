@@ -4,7 +4,9 @@
   "path": "webnovel-dashboard",
   "path_key": "webnovel-dashboard",
   "enabled": true,
-  "tags": [],
+  "tags": [
+    "write"
+  ],
   "source": {
     "type": "git",
     "ref": "https://github.com/lingfengQAQ/webnovel-writer",

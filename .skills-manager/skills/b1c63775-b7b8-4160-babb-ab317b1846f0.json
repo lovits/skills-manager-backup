@@ -4,7 +4,9 @@
   "path": "webnovel-review",
   "path_key": "webnovel-review",
   "enabled": true,
-  "tags": [],
+  "tags": [
+    "write"
+  ],
   "source": {
     "type": "git",
     "ref": "https://github.com/lingfengQAQ/webnovel-writer",
