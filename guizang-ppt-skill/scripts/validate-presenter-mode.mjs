@@ -113,6 +113,9 @@ const runtimeChecks=[
   ['shortcut help','openShortcuts'],
 ];
 for(const [label,needle]of runtimeChecks)if(!html.includes(needle))errors.push(`Presenter runtime missing ${label}.`);
+if(!/id="ppt-timer-toggle"[^>]*>开始计时<\/button>/.test(html))errors.push('Presenter timer must use the explicit label "开始计时".');
+if(!/id="ppt-timer-reset"[^>]*>重置计时<\/button>/.test(html))errors.push('Presenter timer reset must use the explicit label "重置计时".');
+if(!html.includes("totalUsed?'继续计时':'开始计时'"))errors.push('Presenter timer resume state must use the explicit label "继续计时".');
 if(/\.ppt-preview-stack\{[^}]*grid-template-columns/.test(html))errors.push('Presenter previews must stack vertically; remove grid-template-columns from .ppt-preview-stack.');
 
 const timedNotes=speakerNotes.filter(n=>Number.isFinite(Number(n?.minutes))&&Number(n.minutes)>0);
