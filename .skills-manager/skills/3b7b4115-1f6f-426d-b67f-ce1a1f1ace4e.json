@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "3b7b4115-1f6f-426d-b67f-ce1a1f1ace4e",
+  "path": "researchwrite",
+  "path_key": "researchwrite",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Yuan1z0825/nature-skills",
+    "subpath": "skills/nature-proposal-writer",
+    "branch": null
+  }
+}

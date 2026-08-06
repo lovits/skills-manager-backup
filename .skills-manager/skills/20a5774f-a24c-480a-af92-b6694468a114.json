@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "20a5774f-a24c-480a-af92-b6694468a114",
+  "path": "nature-shared",
+  "path_key": "nature-shared",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Yuan1z0825/nature-skills",
+    "subpath": "skills/nature-shared",
+    "branch": null
+  }
+}

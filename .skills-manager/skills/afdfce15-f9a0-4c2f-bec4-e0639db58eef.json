@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "afdfce15-f9a0-4c2f-bec4-e0639db58eef",
+  "path": "nature-polishing",
+  "path_key": "nature-polishing",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "git",
+    "ref": "https://github.com/Yuan1z0825/nature-skills",
+    "subpath": "skills/nature-polishing",
+    "branch": null
+  }
+}
