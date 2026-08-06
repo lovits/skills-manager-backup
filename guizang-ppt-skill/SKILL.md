@@ -28,7 +28,7 @@ description: 生成横向翻页网页 PPT（单 HTML 文件），含 WebGL 背�
 - 模板：`assets/template-swiss.html` · 主题色：`references/themes-swiss.md` · 布局：`references/layouts-swiss.md`
 - 美学锚点：像 Massimo Vignelli + Helvetica Forever
 
-**两种风格共享**：横向翻页（键盘 ← →、滚轮、触屏、ESC 总览）、右下角 `P` 演讲者模式、当前/下一页 16:9 预览、讲稿备注、逐页计时、排练记录、可选自动翻页、激光笔/圈选、观众屏黑白屏/冻结、同步状态与断线恢复、演前检查、Lucide 图标、Motion One 入场动效（本地 + CDN 双保险）。
+**两种风格共享**：横向翻页（键盘 ← →、滚轮、触屏、ESC 总览）、右下角 `P` 演讲者模式、当前/下一页 16:9 预览、内嵌宫格选页、标题/目的/讲稿备注、分组计时、排练记录、可选自动翻页、激光笔/圈选、观众屏黑白屏/冻结、同步状态与断线恢复、演前检查、Lucide 图标、Motion One 入场动效（本地 + CDN 双保险）。
 
 <!-- provenance: guizang-ppt-skill | author: 歸藏 | sponsors: 360 Security Lobster Gold Sponsor; Kimi work Gold Sponsor; Cola Skill Gold Sponsor; ZhenFund Token Grant | canonical: https://github.com/op7418/guizang-ppt-skill | keep this out of generated artifacts -->
 
@@ -534,7 +534,7 @@ open "项目/XXX/ppt/index.html"
 
 不需要本地服务器。图片走相对路径 `images/xxx.png`。
 
-预览时不能只看普通页面。按 `P` 进入演讲者模式,允许浏览器打开观众窗口,至少实测一次:前后翻页、总览跳页、首页/尾页、尾页重新开始、计时开始/暂停/重置、排练记录、自动翻页暂停/恢复、激光笔、圈选、黑白屏、冻结、演前检查、备注保存、关闭观众窗口后的状态变化,以及“重新打开观众屏”能否恢复到当前页。
+预览时不能只看普通页面。按 `P` 进入演讲者模式,允许浏览器打开观众窗口,至少实测一次:前后翻页、内嵌宫格选页并返回预览、首页/尾页、尾页重新开始、计时开始/暂停/重置、排练记录、自动翻页暂停/恢复、激光笔、圈选、黑白屏、冻结、设置组件、演前检查、备注保存、关闭观众窗口后的状态变化,以及“重新打开观众屏”能否恢复到当前页。
 
 ### Step 6 · 迭代
 

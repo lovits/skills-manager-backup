@@ -86,11 +86,12 @@ else{
 const runtimeChecks=[
   ['right-bottom presenter entry','id="ppt-presenter-btn"'],
   ['presenter shell','id="ppt-presenter"'],
-  ['vertical preview stack','.ppt-preview-stack{display:grid;grid-template-rows:minmax(0,1fr)'],
+  ['vertical preview stack','grid-template-rows:minmax(0,1fr) clamp(132px,22vh,210px)'],
   ['16:9 preview viewport','class="ppt-frame-viewport"'],
   ['proportional preview fitter','fitPresenterFrames'],
   ['exact 16:9 fitting','availableHeight*(16/9)'],
   ['overview control','id="ppt-grid"'],
+  ['embedded presenter overview','id="ppt-presenter-overview"'],
   ['first-page control','id="ppt-first"'],
   ['last/restart control','id="ppt-last"'],
   ['audience status','id="ppt-sync"'],
@@ -98,7 +99,8 @@ const runtimeChecks=[
   ['direct window sync','postMessage('],
   ['BroadcastChannel fallback','BroadcastChannel'],
   ['storage fallback','__guizangPptSync'],
-  ['per-slide timer','id="ppt-time-detail"'],
+  ['per-slide timer','id="ppt-slide-clock"'],
+  ['clear timer status','id="ppt-slide-status"'],
   ['rehearsal mode','id="ppt-rehearsal"'],
   ['auto advance','id="ppt-auto-toggle"'],
   ['laser and circle tools','id="ppt-presenter-ink"'],
@@ -106,6 +108,8 @@ const runtimeChecks=[
   ['black, white, and freeze controls','setScreenMode'],
   ['preflight checks','id="ppt-preflight"'],
   ['layout presets','data-layout-choice'],
+  ['capsule auto-advance switch','class="ppt-switch"'],
+  ['styled interval stepper','class="ppt-stepper"'],
   ['shortcut help','openShortcuts'],
 ];
 for(const [label,needle]of runtimeChecks)if(!html.includes(needle))errors.push(`Presenter runtime missing ${label}.`);
