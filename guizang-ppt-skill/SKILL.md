@@ -448,9 +448,10 @@ cp "<SKILL_ROOT>/assets/template-swiss.html" "项目/XXX/ppt/index.html"
 ```bash
 node <SKILL_ROOT>/scripts/validate-presenter-mode.mjs path/to/index.html
 node <SKILL_ROOT>/scripts/validate-presenter-mode.mjs path/to/index.html --target-minutes 30
+node <SKILL_ROOT>/scripts/check-presenter-runtime-sync.mjs
 ```
 
-它会拦截缺失/重复页面 ID、备注与页面错位、必填字段或可选字段类型错误、完整时间计划超出 90% 预算,以及计时、排练、自动翻页、标注、演前检查和观众屏恢复控件缺失。
+第一个脚本会拦截缺失/重复页面 ID、备注与页面错位、必填字段或可选字段类型错误、完整时间计划超出 90% 预算,以及计时、排练、自动翻页、标注、演前检查和观众屏恢复控件缺失。第二个脚本会拦截两套模板之间的演讲者 CSS / JS 漂移。
 
 #### 4.0.1 · 先量后改:超出 / 空白 / 标题间距
 

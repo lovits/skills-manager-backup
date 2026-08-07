@@ -39,6 +39,7 @@ function extractArray(name){
 
 const slideTags=[...source.matchAll(/<section\b(?=[^>]*\bclass="[^"]*\bslide\b[^"]*")[^>]*>/g)].map(m=>m[0]);
 const slideIds=slideTags.map((tag,i)=>tag.match(/\bdata-slide-id="([^"]+)"/)?.[1]||'');
+if(!slideIds.length)warnings.push('No slides found; only the reusable presenter runtime can be validated.');
 
 slideIds.forEach((id,i)=>{
   if(!id)errors.push(`Slide ${i+1}: missing data-slide-id.`);
@@ -86,16 +87,15 @@ else{
 const runtimeChecks=[
   ['right-bottom presenter entry','id="ppt-presenter-btn"'],
   ['presenter shell','id="ppt-presenter"'],
-  ['vertical preview stack','grid-template-rows:minmax(0,1fr) clamp(132px,22vh,210px)'],
   ['16:9 preview viewport','class="ppt-frame-viewport"'],
   ['proportional preview fitter','fitPresenterFrames'],
-  ['exact 16:9 fitting','availableHeight*(16/9)'],
   ['overview control','id="ppt-grid"'],
   ['embedded presenter overview','id="ppt-presenter-overview"'],
   ['first-page control','id="ppt-first"'],
   ['last/restart control','id="ppt-last"'],
   ['audience status','id="ppt-sync"'],
   ['audience recovery','id="ppt-reopen"'],
+  ['audience shutdown handling','showAudienceEnded'],
   ['direct window sync','postMessage('],
   ['BroadcastChannel fallback','BroadcastChannel'],
   ['storage fallback','__guizangPptSync'],
@@ -110,12 +110,16 @@ const runtimeChecks=[
   ['layout presets','data-layout-choice'],
   ['capsule auto-advance switch','class="ppt-switch"'],
   ['styled interval stepper','class="ppt-stepper"'],
+  ['reload-free preview navigation','preview-goto'],
   ['shortcut help','openShortcuts'],
 ];
 for(const [label,needle]of runtimeChecks)if(!html.includes(needle))errors.push(`Presenter runtime missing ${label}.`);
+if(!/\.ppt-preview-stack\s*\{[^}]*grid-template-rows\s*:/s.test(html))errors.push('Presenter preview stack must define vertical grid rows.');
+if(!/\.ppt-frame\s*\{[^}]*aspect-ratio\s*:\s*16\s*\/\s*9/s.test(html))errors.push('Presenter preview frames must declare a 16:9 aspect ratio.');
+if(!/fitPresenterFrames[\s\S]*?16\s*\/\s*9/.test(html))errors.push('Presenter preview fitter must preserve the 16:9 ratio.');
 if(!/id="ppt-timer-toggle"[^>]*>开始计时<\/button>/.test(html))errors.push('Presenter timer must use the explicit label "开始计时".');
 if(!/id="ppt-timer-reset"[^>]*>重置计时<\/button>/.test(html))errors.push('Presenter timer reset must use the explicit label "重置计时".');
-if(!html.includes("totalUsed?'继续计时':'开始计时'"))errors.push('Presenter timer resume state must use the explicit label "继续计时".');
+if(!html.includes('继续计时'))errors.push('Presenter timer resume state must use the explicit label "继续计时".');
 if(/\.ppt-preview-stack\{[^}]*grid-template-columns/.test(html))errors.push('Presenter previews must stack vertically; remove grid-template-columns from .ppt-preview-stack.');
 
 const timedNotes=speakerNotes.filter(n=>Number.isFinite(Number(n?.minutes))&&Number(n.minutes)>0);
