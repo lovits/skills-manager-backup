@@ -188,6 +188,10 @@ Full spec in [`SKILL.md`](./SKILL.md).
 
 Both templates ship with the same presenter runtime. Open a deck and press the bottom-right `P` to enter presenter view; the browser opens a clean audience window at the same time. Core features run entirely inside the local HTML and browser—no live-caption service, cloud relay, phone remote, or AI coaching service is required.
 
+**Presenter view example**
+
+![Presenter view with current and next slides, speaker notes, timing controls, and audience status](https://github.com/user-attachments/assets/95db62b5-65bb-40af-ac0b-1d415682af88)
+
 ### What the speaker sees
 
 - **Current and next slides**: stacked vertically and always kept at `16:9`; small windows scale the whole slide without cropping or reflowing its text
