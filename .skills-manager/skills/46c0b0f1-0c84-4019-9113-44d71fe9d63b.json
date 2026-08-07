@@ -4,7 +4,9 @@
   "path": "nature-statistics",
   "path_key": "nature-statistics",
   "enabled": true,
-  "tags": [],
+  "tags": [
+    "Nature skills"
+  ],
   "source": {
     "type": "git",
     "ref": "https://github.com/Yuan1z0825/nature-skills",
