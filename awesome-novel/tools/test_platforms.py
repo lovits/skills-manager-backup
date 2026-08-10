@@ -6,9 +6,10 @@
 
 覆盖：
 - 单元：platforms 模块（配置/检测/引用改写/yaml 预检）
+- 单元：check-python.py 版本门槛（安装阶段 fail-fast）
 - E2E：init.py 各平台布局 + 引用改写 + reasonix 10 个 skill + codex TOML agent（含 tomllib 解析）
 - E2E：sync-project.py 各平台同步 + --check
-- E2E：install.sh 全新 HOME 首次安装（F1 回归）+ 缺 pyyaml 负向场景（F5 回归）
+- E2E：install.sh 全新 HOME 首次安装（F1 回归）+ 版本门槛 fail-fast（P-ver 回归）+ 缺 pyyaml 负向场景（F5 回归）
 """
 
 import os
@@ -122,6 +123,18 @@ def test_yaml_precheck():
         builtins.__import__ = real_import
 
 
+def test_check_python():
+    """P-ver 回归：check-python.py 在安装阶段暴露版本问题，而不是执行时才报 SyntaxError。"""
+    print("[unit] check-python.py 版本门槛")
+    r = run([sys.executable, str(TOOLS / "check-python.py")])
+    check("当前解释器通过", r.returncode == 0, (r.stdout + r.stderr)[-200:])
+    r = run([sys.executable, str(TOOLS / "check-python.py"), "--min", "99.0"])
+    check("超高门槛拒绝", r.returncode == 1, str(r.returncode))
+    check("拒绝信息含版本号与升级提示",
+          "Python 99.0" in (r.stdout + r.stderr) and "升级" in (r.stdout + r.stderr),
+          (r.stdout + r.stderr)[-300:])
+
+
 def _raises(fn, *a) -> bool:
     try:
         fn(*a)
@@ -218,12 +231,27 @@ def test_init_layout():
         nv = (tmp / ".codex/agents/novel-agent.toml").read_text(encoding="utf-8")
         check("codex novel-agent 调度适配",
               "spawn_agent" in nv and ".codex/agents/" in nv)
+        sub_toml = "".join(
+            f.read_text(encoding="utf-8")
+            for f in sorted((tmp / ".codex/agents").glob("*.toml"))
+            if f.name != "novel-agent.toml"
+        )
+        check("codex 子 agent 注入调度硬约束",
+              "调度权限硬约束" in sub_toml and "spawn_agent" in sub_toml
+              and "禁止使用" in sub_toml,
+              "子 agent TOML 缺少禁止派生指令")
+        check("codex novel-agent 不注入禁调",
+              "调度权限硬约束" not in nv, "novel-agent 是唯一调度者，不应注入禁调")
+        vp = (tmp / ".codex/agents/volume-planner.toml").read_text(encoding="utf-8")
+        check("codex volume-planner 源 OOS 含不调度",
+              "不调度其他 agent" in vp, "volume-planner 源文件缺少不调度声明")
         check("codex skill roleplay-sandbox",
               (tmp / ".codex/skills/roleplay-sandbox/SKILL.md").exists())
         check("codex skill memory-recording",
               (tmp / ".codex/skills/memory-recording/SKILL.md").exists())
         ag = (tmp / "AGENTS.md").read_text(encoding="utf-8")
         check("codex AGENTS.md 指向 .codex/agents", ".codex/agents/" in ag, ag[:200])
+        check("codex AGENTS.md 唯一调度者规则", "唯一调度者" in ag, ag[:400])
         check("codex 无 CLAUDE.md", not (tmp / "CLAUDE.md").exists())
         check("codex 无 AGENTS.codex.md 模板副本",
               not (tmp / "AGENTS.codex.md").exists())
@@ -320,6 +348,24 @@ def test_install_no_home():
     check("no HOME 报路径异常", "安装目标路径异常" in (r.stdout + r.stderr))
 
 
+def test_install_python_gate():
+    """P-ver 回归：版本检查失败时 install.sh 在创建/删除任何目录前即中止。"""
+    print("[e2e] install.sh Python 版本门槛 fail-fast")
+    with tempfile.TemporaryDirectory() as td:
+        home = Path(td) / "home"
+        home.mkdir()
+        env = dict(os.environ)
+        env["HOME"] = str(home)
+        env["NOVEL_PYTHON"] = "/bin/false"
+        r = run(["bash", str(TOOLS.parent / "install.sh"), "codex"],
+                cwd=str(TOOLS.parent), env=env)
+        check("版本门槛拒绝 exit 1", r.returncode == 1, str(r.returncode))
+        check("拒绝信息含安装中止", "安装中止" in (r.stdout + r.stderr),
+              (r.stdout + r.stderr)[-300:])
+        dest = home / ".codex" / "skills" / "awesome-novel"
+        check("拒绝时未创建目标目录", not dest.exists())
+
+
 def test_noyaml_e2e():
     """F5 回归：缺 pyyaml 时 init --platform codex 明确报错退出，不产出损坏 TOML。"""
     print("[e2e] 缺 pyyaml 时 init --platform codex 明确报错")
@@ -342,10 +388,12 @@ def main():
         ("test_rewrite", test_rewrite),
         ("test_config", test_config),
         ("test_yaml_precheck", test_yaml_precheck),
+        ("test_check_python", test_check_python),
         ("test_init_layout", test_init_layout),
         ("test_sync", test_sync),
         ("test_install_fresh_home", test_install_fresh_home),
         ("test_install_no_home", test_install_no_home),
+        ("test_install_python_gate", test_install_python_gate),
         ("test_noyaml_e2e", test_noyaml_e2e),
     ]:
         try:
