@@ -21,7 +21,7 @@ set -e
 
 usage() {
     echo "用法: $0 <平台>"
-    echo "平台: claude-code, opencode, codex, hermes, openclaw, deepseek-tui"
+    echo "平台: claude-code, opencode, codex, zcode, hermes, openclaw, deepseek-tui"
     exit 1
 }
 
@@ -50,6 +50,9 @@ case "$PLATFORM" in
     codex)
         SKILLS_DIR="$HOME/.codex/skills"
         ;;
+    zcode)
+        SKILLS_DIR="$HOME/.zcode/skills"
+        ;;
     *)
         echo "不支持的平台: $PLATFORM"
         usage
@@ -75,12 +78,12 @@ if ! "$PY_BIN" "$SCRIPT_DIR/tools/check-python.py"; then
     exit 1
 fi
 
-# pyyaml 门槛：opencode / codex 的 agent 转换依赖 pyyaml（与 tools/platforms.py
-# ensure_yaml 的运行时规则对齐）；claude 平台纯复制不转换、hermes/openclaw/
-# deepseek-tui 未走 agent 转换，均不需要。缺失时同样在任何目录创建/删除前
-# fail-fast，而不是等 init.py / sync-project.py 执行时才报错。
+# pyyaml 门槛：opencode / codex / zcode 的 agent/skill 转换依赖 pyyaml（与
+# tools/platforms.py ensure_yaml 的运行时规则对齐）；claude 平台纯复制不转换、
+# hermes/openclaw/deepseek-tui 未走转换，均不需要。缺失时同样在任何目录创建/
+# 删除前 fail-fast，而不是等 init.py / sync-project.py 执行时才报错。
 case "$PLATFORM" in
-    opencode|codex)
+    opencode|codex|zcode)
         if ! "$PY_BIN" "$SCRIPT_DIR/tools/check-yaml.py" "$PLATFORM"; then
             echo "安装中止：缺少 pyyaml。请先执行 pip install pyyaml（系统 Python 权限受限时可用 pip install --user pyyaml），再重试。"
             exit 1
@@ -121,7 +124,7 @@ cp -r "$SCRIPT_DIR/skills" "$DEST/"
 cp -r "$SCRIPT_DIR/knowledge" "$DEST/"
 cp -r "$SCRIPT_DIR/templates" "$DEST/"
 cp -r "$SCRIPT_DIR/tools" "$DEST/"
-# memory/ 含 writer-style 等静态参考素材，不包含 anti-ai（已迁至 knowledge/anti-ai/）
+# memory/ 已废弃（writer-style 已迁至 knowledge/format-specs/）；保留守卫兼容旧仓库
 [ -d "$SCRIPT_DIR/memory" ] && cp -r "$SCRIPT_DIR/memory" "$DEST/"
 
 echo "安装完成!"

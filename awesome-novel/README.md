@@ -1,6 +1,6 @@
 <p align="center">
   <strong>awesome-novel</strong><br>
-  <em>和 AI 一起写小说 —— 支持 Claude Code / OpenCode / Reasonix / Codex</em>
+  <em>和 AI 一起写小说 —— 支持 Claude Code / OpenCode / Reasonix / Codex / ZCode</em>
 </p>
 
 <p align="center">
@@ -9,6 +9,7 @@
   <a href="#opencode"><img src="https://img.shields.io/badge/OpenCode-%E2%9C%93%20%E6%94%AF%E6%8C%81-4A90D9?style=flat-square" alt="OpenCode"></a>
   <a href="#reasonix-集成"><img src="https://img.shields.io/badge/Reasonix-%E2%9C%93%20%E6%94%AF%E6%8C%81-16A34A?style=flat-square" alt="Reasonix"></a>
   <a href="#codex-集成"><img src="https://img.shields.io/badge/Codex-%E2%9C%93%20%E6%94%AF%E6%8C%81-10A37F?style=flat-square" alt="Codex"></a>
+  <a href="#zcode-集成"><img src="https://img.shields.io/badge/ZCode-%E2%9C%93%20%E6%94%AF%E6%8C%81-0EA5E9?style=flat-square" alt="ZCode"></a>
   <br>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPL%203.0-blue?style=flat-square" alt="GPL 3.0"></a>
   <br>
@@ -68,15 +69,15 @@
 
 ## 你需要什么
 
-- 安装了 [Claude Code](https://docs.anthropic.com/zh-CN/docs/claude-code/overview)、[OpenCode](https://github.com/sglaboratory/opencode)、**Reasonix** 或 **Codex** 的电脑
+- 安装了 [Claude Code](https://docs.anthropic.com/zh-CN/docs/claude-code/overview)、[OpenCode](https://github.com/sglaboratory/opencode)、**Reasonix**、**Codex** 或 **ZCode** 的电脑
 - Python 3.9+（macOS 系统自带 3.9 即可用；推荐 3.11+）
-- OpenCode / Codex 平台还需 pyyaml（`pip install pyyaml`；系统 Python 权限受限时用 `pip install --user pyyaml`）
+- OpenCode / Codex / ZCode 平台还需 pyyaml（`pip install pyyaml`；系统 Python 权限受限时用 `pip install --user pyyaml`）
 - 大概 1 分钟完成安装
 
 
 ## 安装
 
-**不用复制粘贴命令。** 打开你正在使用的 AI 工具（Claude Code / OpenCode / Codex），对它说：
+**不用复制粘贴命令。** 打开你正在使用的 AI 工具（Claude Code / OpenCode / Codex / ZCode），对它说：
 
 > **帮我安装 awesome-novel-skill**
 
@@ -87,8 +88,9 @@ AI 会自动从仓库 <https://github.com/modoojunko/awesome-novel-skill> 下载
 | Claude Code | `~/.claude/skills/awesome-novel/` |
 | OpenCode | `~/.config/opencode/skills/awesome-novel/` |
 | Codex | `~/.codex/skills/awesome-novel/` |
+| ZCode | `~/.zcode/skills/awesome-novel/` |
 
-看到 **"安装完成"** 就可以了。想手动安装时，克隆仓库后运行 `./install.sh <平台>`（平台：`claude-code` / `opencode` / `codex`）；Windows 用 PowerShell 时运行 `install.ps1 <平台>`。install.sh 同时兼容 deepseek-tui / hermes / openclaw（非主推平台）。安装脚本会先检查 Python 版本（需要 3.9+）和 pyyaml 依赖（仅 opencode / codex），不满足会直接中止并给出升级 / 安装提示，不会等到 `init.py` / `sync-project.py` 执行时才报错。
+看到 **"安装完成"** 就可以了。想手动安装时，克隆仓库后运行 `./install.sh <平台>`（平台：`claude-code` / `opencode` / `codex` / `zcode`）；Windows 用 PowerShell 时运行 `install.ps1 <平台>`。install.sh 同时兼容 deepseek-tui / hermes / openclaw（非主推平台）。安装脚本会先检查 Python 版本（需要 3.9+）和 pyyaml 依赖（仅 opencode / codex / zcode），不满足会直接中止并给出升级 / 安装提示，不会等到 `init.py` / `sync-project.py` 执行时才报错。
 
 **Reasonix：**
 
@@ -102,16 +104,27 @@ cd <小说项目路径> && reasonix code
 
 > 用 `--genre <编号>` 指定预置题材，不传则交互式选题材。
 
+**ZCode：**
+
+ZCode 的 skill 约定与 Claude Code 同源（目录 + `SKILL.md`），但**无项目级 agents 目录**——项目内的 9 个 agent 以 skill 形式部署（agents 即 skills）。skill 本体走 install.sh 用户级安装，项目内容由 `init.py --platform zcode` 项目级部署到 `.zcode/`：
+
+```bash
+./install.sh zcode
+python ~/.zcode/skills/awesome-novel/tools/init.py <小说项目路径> --platform zcode
+```
+
 > **OpenCode 用户注意：** 安装路径为 `~/.config/opencode/skills/awesome-novel/`，初始化后 agent 定义部署在项目 `.opencode/agents/` 下，OpenCode 自动发现。详情见下方 [OpenCode 集成](#opencode) 说明。
 
-> **Codex 用户注意：** skill 安装到 `~/.codex/skills/awesome-novel/`，初始化后 8 个自定义 agent 以 TOML 形式部署在项目 `.codex/agents/` 下，Codex 自动发现。详情见下方 [Codex 集成](#codex-集成) 说明。
+> **Codex 用户注意：** skill 安装到 `~/.codex/skills/awesome-novel/`，初始化后 9 个自定义 agent 以 TOML 形式部署在项目 `.codex/agents/` 下，Codex 自动发现。详情见下方 [Codex 集成](#codex-集成) 说明。
+
+> **ZCode 用户注意：** skill 安装到 `~/.zcode/skills/awesome-novel/`，初始化后 9 个 agent 以 SKILL.md 形式部署在项目 `.zcode/skills/` 下（ZCode 无项目级 agents 目录，agents 即 skills），ZCode 自动发现。详情见下方 [ZCode 集成](#zcode-集成) 说明。
 
 > **看到这个项目觉得有用？** 顺手点个 Star，这样它会出现在你的 GitHub 首页，让更多人发现。
 > {: .prompt-info }
 
 ## 开始写小说
 
-安装好本体后，在**你想放小说项目的目录**下启动 Claude Code / OpenCode / Codex，输入：
+安装好本体后，在**你想放小说项目的目录**下启动 Claude Code / OpenCode / Codex / ZCode，输入：
 
 > **/awesome-novel**
 
@@ -119,9 +132,9 @@ cd <小说项目路径> && reasonix code
 
 skill 会自动检测目录状态：新目录会先和你确认，然后运行 `init.py` 在本地初始化小说工作空间（项目骨架、agent 定义、知识库、记忆文件），完成后进入写作流程。后续再进入该项目时，说 `@novel-agent` 或 **"帮我继续写"** 就能从中断处恢复。
 
-Reasonix 用户在项目目录运行 `reasonix code` 后，输入 `@novel-agent` 进入写作流程。
+Reasonix 用户在项目目录运行 `reasonix code` 后，输入 `@novel-agent` 进入写作流程。ZCode 用户在项目目录说 **"帮我写本小说"** 或 **"帮我继续写"** 即可（ZCode 无 `@` 语法，agents 即 skills，novel-agent 由 ZCode 自动发现）。
 
-Agent 会引导你完成后续步骤。系统由 8 个 AI Agent 协作驱动，自动检测进度、调度任务，你只需确认方向和审阅内容。
+Agent 会引导你完成后续步骤。系统由 9 个 AI Agent 协作驱动，自动检测进度、调度任务，你只需确认方向和审阅内容。
 
 ```
 novel-agent（总指挥 — 顶层入口，由 @novel-agent 加载）
@@ -154,43 +167,51 @@ novel-agent 只负责调度和验证，不直接写内容。子 agent 各司其�
 ├── CLAUDE.md             # 项目级 CLAUDE.md（tools 白名单）
 ├── settings/             # 设定文件
 │   ├── world-setting.md  # 世界观
-│   ├── writing-style.md  # 写作风格
+│   ├── writing-style.md  # 写作风格（蒸馏后含量化层主卡）
 │   ├── genre-setting.md  # 题材设定
 │   ├── timeline.md       # 时间线
-│   └── character-setting/ # 角色档案
-│       └── <id>.md       # 每角色一个文件
+│   ├── character-setting/ # 角色档案
+│   │   └── <id>.md       # 每角色一个文件
+│   ├── style-profiles/   # 分场景风格卡（蒸馏产出：dialogue/fight/group-scene/…）
+│   │   └── genre-baselines/  # 题材风格基线（base/benchmark/delta）
+│   └── .style-versions/  # 蒸馏版本快照（style-distiller 蒸馏时生成）
 ├── volumes/              # 卷纲（情绪走向/冲突阶梯/信息差/场景卡）
 ├── chapters/             # 章纲
 ├── prompts/              # 提示词
 ├── sandbox/              # 剧情推演记录（可选，作者卡剧情时调用）
+├── novel-samples/        # 文风蒸馏样本（把想学文风的文章放这里，style-distiller 专用）
 ├── archives/             # 正文（定稿）
 ├── .agent/               # Agent 进度 + 任务通信
 │   ├── status.md         # 进度标记（phase/volume/chapter）
 │   └── task/             # 子 agent 间 order 文件
-├── .opencode/            # OpenCode 用（四选一，由 init.py --platform 决定）
-│   ├── agents/           # 8 个 Agent 定义（初始化时部署）
+├── .opencode/            # OpenCode 用（五选一，由 init.py --platform 决定）
+│   ├── agents/           # 9 个 Agent 定义（初始化时部署）
 │   ├── knowledge/        # 格式规范、反 AI 规则、文风偏好、永久记忆
 │   └── memory/           # 写作动态记忆
-├── .claude/              # Claude Code 用（四选一）
-│   ├── agents/           # 8 个 Agent 定义（初始化时部署）
+├── .claude/              # Claude Code 用（五选一）
+│   ├── agents/           # 9 个 Agent 定义（初始化时部署）
 │   ├── knowledge/        # 格式规范、反 AI 规则、文风偏好、永久记忆
 │   └── memory/           # 写作动态记忆（各环节作者反馈）
 │       ├── volume-memory.md
 │       ├── chapter-memory.md
 │       ├── prompt-memory.md
 │       └── writing-memory.md
-├── .reasonix/            # Reasonix 用（四选一）
-    ├── skills/           # 10 个 SKILL.md（agents 即 skills）
+├── .reasonix/            # Reasonix 用（五选一）
+    ├── skills/           # 11 个 SKILL.md（agents 即 skills）
     ├── knowledge/        # 格式规范、反 AI 规则、文风偏好、永久记忆
     └── memory/           # 写作动态记忆
-└── .codex/               # Codex 用（四选一）
-    ├── agents/           # 8 个自定义 agent（TOML，初始化时部署）
+├── .codex/               # Codex 用（五选一）
+    ├── agents/           # 9 个自定义 agent（TOML，初始化时部署）
     ├── skills/           # 独立交互工具（memory-recording、roleplay-sandbox）
+    ├── knowledge/        # 格式规范、反 AI 规则、文风偏好、永久记忆
+    └── memory/           # 写作动态记忆
+└── .zcode/               # ZCode 用（五选一）
+    ├── skills/           # 10 个 SKILL.md（agents 即 skills，初始化时部署）
     ├── knowledge/        # 格式规范、反 AI 规则、文风偏好、永久记忆
     └── memory/           # 写作动态记忆
 ```
 
-这些全是纯文本 Markdown 文件，你可以直接用编辑器打开看或手动改。实际项目只生成一套平台目录（由 `init.py --platform` 决定），`.claude/` / `.opencode/` / `.reasonix/` / `.codex/` 不会同时存在。
+这些全是纯文本 Markdown 文件，你可以直接用编辑器打开看或手动改。实际项目只生成一套平台目录（由 `init.py --platform` 决定），`.claude/` / `.opencode/` / `.reasonix/` / `.codex/` / `.zcode/` 不会同时存在。
 
 ### 规划故事骨架
 
@@ -222,6 +243,7 @@ novel-agent 只负责调度和验证，不直接写内容。子 agent 各司其�
 
 ### 自动做的事（Agent 维护）
 
+- **蒸馏文风**（style-distiller）：导入参考样本或利用已归档章节，自动提炼量化文风参数（句长/对话占比/形容词密度等），写入风格主卡与场景卡并按场景稀疏注入提示词；归档后增量校准，越写越贴合你的风格
 - **去 AI 味**（prompt-crafter + writer + anti-ai）：提示词组装时注入反 AI 规则，正文生成时自查，独立 anti-ai agent 做 Gate A-F 管线检测和量化评分定级
 - **动态记忆**（多 agent + updater）：各 agent 在对话中实时记录你的写作偏好和反馈（正反案例），归档时 updater 兜底清理、去重压缩。高频使用的规则自动晋升为永久记忆（`.claude/knowledge/permanent-memory.md`），越写越懂你
 - **记伏笔**（updater）：归档时自动扫描未兑现/新埋的钩子，检测陈旧度和集中收束风险
@@ -263,7 +285,7 @@ novel-agent 只负责调度和验证，不直接写内容。子 agent 各司其�
 
 **Q: 我不会编程，能装吗？**
 
-能。打开你的 AI 工具，对它说"帮我安装 awesome-novel-skill，仓库在 https://github.com/modoojunko/awesome-novel-skill"，AI 会自己运行安装脚本，全程不用复制粘贴命令。唯一的前提是你的电脑上已经装好了 Claude Code、OpenCode、Reasonix 或 Codex。
+能。打开你的 AI 工具，对它说"帮我安装 awesome-novel-skill，仓库在 https://github.com/modoojunko/awesome-novel-skill"，AI 会自己运行安装脚本，全程不用复制粘贴命令。唯一的前提是你的电脑上已经装好了 Claude Code、OpenCode、Reasonix、Codex 或 ZCode。
 
 **Q: 我升级了技能，之前写的小说项目怎么迁移到新格式？**
 
@@ -351,7 +373,8 @@ awesome-novel-skill/
 │   ├── writer.md        # 写手
 │   ├── anti-ai.md       # 反 AI 编辑
 │   ├── reader.md        # 测试读者
-│   └── updater.md       # 档案管理员
+│   ├── updater.md       # 档案管理员
+│   └── style-distiller.md# 风格蒸馏师
 ├── skills/               # Agent 技能 SOP + 交互式工具
 ├── knowledge/            # 知识库（→ 项目 .claude/knowledge/）
 │   ├── format-specs/    # 格式规范
@@ -359,10 +382,9 @@ awesome-novel-skill/
 │   ├── plot-craft/      # 剧情设计（与作者讨论）
 │   ├── character-craft/ # 角色设定（与作者讨论）
 │   ├── title-craft/     # 取书名（与作者讨论）
+│   ├── style-distill/   # 风格蒸馏（prompt-templates：渲染/验收/特征提取）
 │   ├── genre-example/   # 题材案例
 │   └── anti-ai/         # 反AI写作库（通用规则 + 题材正反例）
-├── memory/               # 动态记忆（→ 项目 .claude/memory/）
-│   └── writer-style
 └── tools/                # 工具脚本
 ```
 
@@ -398,7 +420,7 @@ python ~/.config/opencode/skills/awesome-novel/tools/init.py . --genre <编号>
 
 ### 项目结构差异
 
-OpenCode 项目与 Claude Code 项目结构一致，唯一区别是 agent 定义部署在 `.opencode/agents/` 而非 `.claude/agents/`。三个平台共享同一套写作流程和知识库。
+OpenCode 项目与 Claude Code 项目结构一致，唯一区别是 agent 定义部署在 `.opencode/agents/` 而非 `.claude/agents/`。各平台共享同一套写作流程和知识库。
 
 ### Agent 技能贡献
 
@@ -429,7 +451,7 @@ OpenCode 项目与 Claude Code 项目结构一致，唯一区别是 agent 定义
 
 本 skill 也支持 Reasonix（DeepSeek 专属终端 AI agent，借助字节稳定前缀缓存优化推理成本）。
 
-与 Claude Code / OpenCode 不同，Reasonix 的 skill 是**项目级部署**——每个小说项目初始化时生成 `.reasonix/skills/`（10 个 SKILL.md，agents 即 skills），不装到全局。
+与 Claude Code / OpenCode 不同，Reasonix 的 skill 是**项目级部署**——每个小说项目初始化时生成 `.reasonix/skills/`（11 个 SKILL.md，agents 即 skills），不装到全局。
 
 ### 安装框架源码
 
@@ -459,7 +481,7 @@ Reasonix 项目把 agent 定义以 skill 形式部署在 `.reasonix/skills/`，�
 
 ```
 .reasonix/
-├── skills/               # 10 个 SKILL.md（agents 即 skills）
+├── skills/               # 11 个 SKILL.md（agents 即 skills）
 │   ├── novel-agent/SKILL.md
 │   ├── writer/SKILL.md
 │   ├── volume-planner/SKILL.md
@@ -486,7 +508,7 @@ Reasonix 项目把 agent 定义以 skill 形式部署在 `.reasonix/skills/`，�
 python ~/.codex/skills/awesome-novel/tools/init.py <小说项目路径> --genre <编号> --platform codex
 ```
 
-初始化后 8 个自定义 agent 以 Codex 官方 TOML 格式部署到项目 `.codex/agents/*.toml`（`name` / `description` / `developer_instructions`），独立交互工具（memory-recording、roleplay-sandbox）部署为 `.codex/skills/<name>/SKILL.md`，反 AI 规则、文风偏好、格式规范与写作记忆分别落在 `.codex/knowledge/`、`.codex/memory/`。
+初始化后 9 个自定义 agent 以 Codex 官方 TOML 格式部署到项目 `.codex/agents/*.toml`（`name` / `description` / `developer_instructions`），独立交互工具（memory-recording、roleplay-sandbox）部署为 `.codex/skills/<name>/SKILL.md`，反 AI 规则、文风偏好、格式规范与写作记忆分别落在 `.codex/knowledge/`、`.codex/memory/`。
 
 ### 开始写作
 
@@ -496,7 +518,7 @@ python ~/.codex/skills/awesome-novel/tools/init.py <小说项目路径> --genre 
 
 ```
 .codex/
-├── agents/               # 8 个自定义 agent（TOML）
+├── agents/               # 9 个自定义 agent（TOML）
 │   ├── novel-agent.toml
 │   ├── writer.toml
 │   ├── volume-planner.toml
@@ -507,3 +529,42 @@ python ~/.codex/skills/awesome-novel/tools/init.py <小说项目路径> --genre 
 ```
 
 升级时用 `python tools/sync-project.py <小说项目路径> --platform codex` 同步最新框架。
+
+## ZCode 集成
+
+本 skill 也支持 [ZCode](https://zcode.z.ai)（开源的 AI 编码 agent 终端）。ZCode 的 skill 约定（目录 + `SKILL.md`）与 Claude Code 同源，**天然兼容**；但 ZCode 无项目级 agents 目录，项目内 9 个 agent 以 skill 形式部署（agents 即 skills）。skill 本体**用户级安装**，小说项目内的 agents/skills/knowledge/memory 全部**项目级部署**在 `.zcode/`。
+
+### 安装
+
+在 ZCode 里输入 **"帮我安装 awesome-novel-skill"**，它会自动运行 `./install.sh zcode`，安装到 `~/.zcode/skills/awesome-novel/`。
+
+### 初始化项目
+
+在 ZCode 中打开目标目录，说"帮我写本小说"，skill 会自动初始化；也可手动运行：
+
+```bash
+python ~/.zcode/skills/awesome-novel/tools/init.py <小说项目路径> --genre <编号> --platform zcode
+```
+
+初始化后 9 个 agent 以 SKILL.md 形式部署到项目 `.zcode/skills/<name>/SKILL.md`（与 Reasonix 同构，含 11 个 skill：9 个 agent + memory-recording、roleplay-sandbox 独立工具），反 AI 规则、文风偏好、格式规范与写作记忆分别落在 `.zcode/knowledge/`、`.zcode/memory/`。
+
+### 开始写作
+
+初始化完成后，在 ZCode 中打开项目目录，说 **"帮我写本小说"** 或 **"帮我继续写"** 进入写作循环（ZCode 无 `@` 语法，novel-agent 由 ZCode 按 skill 自动发现）。ZCode 环境里 novel-agent 用 `Agent` 工具调度子 agent（子 agent 名 = `.zcode/skills/` 下的 skill 名），order 文件协议与其余平台一致。
+
+### 项目结构差异
+
+```
+.zcode/
+├── skills/               # 11 个 SKILL.md（agents 即 skills）
+│   ├── novel-agent/      # 总指挥（入口调度者）
+│   ├── writer/           # 正文写手（subagent）
+│   ├── volume-planner/   # 卷纲规划（subagent）
+│   ├── ...
+│   ├── memory-recording/ # 独立交互工具
+│   └── roleplay-sandbox/ # 独立交互工具
+├── knowledge/            # 反 AI 规则、文风偏好、永久记忆、格式规范
+└── memory/               # 写作动态记忆
+```
+
+升级时用 `python tools/sync-project.py <小说项目路径> --platform zcode` 同步最新框架。

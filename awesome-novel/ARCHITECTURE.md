@@ -1,7 +1,7 @@
 # awesome-novel-skill 架构文档
 
 > 面向开发者理解实现细节。面向使用者的内容见 [README.md](./README.md)。
-> 当前版本：v4.11.1
+> 当前版本：v4.13.0
 
 ---
 
@@ -41,7 +41,7 @@ Skill 入口（主 agent 加载 SKILL.md 后）先做项目状态检测，之后
 | 角色 | 职责 |
 |-----|------|
 | **novel-agent** | 顶层总指挥（`@novel-agent` 加载进主 AI）。检测 phase、写 order 文件、通过 Agent 工具调度子 agent。**不直接代劳子 agent 的工作，不用 Bash，不写任何内容文件** |
-| **子 Agent × 7** | volume-planner / chapter-planner / prompt-crafter / writer / anti-ai / reader / updater。各自负责一个环节，由 novel-agent 调度，完成后将 order 标记 `status: DONE` |
+| **子 Agent × 8** | volume-planner / chapter-planner / prompt-crafter / writer / anti-ai / reader / updater / style-distiller。各自负责一个环节，由 novel-agent 调度，完成后将 order 标记 `status: DONE` |
 
 > **写作基底规范**（`knowledge/format-specs/writing-base.md`，部署为 `.claude/knowledge/writing-base.md`，非 agent，不可调度）——永久加载、不可篡改。
 > writer 的写作 sub-agent 动笔前先加载此基底，再叠加章节提示词；与基底冲突时以基底为准。
@@ -57,6 +57,7 @@ Skill 入口（主 agent 加载 SKILL.md 后）先做项目状态检测，之后
 | `anti-ai` | Gate A-F 管线检测 + 量化评分定级 + 逐项清除 | novel-agent |
 | `reader` | 深度评审（可选，作者需要时调度） | novel-agent |
 | `updater` | 归档 lore-keeping + 设定变更 + 记忆兜底 | novel-agent |
+| `style-distiller` | 风格蒸馏（LLM 双态：脚本统计引擎已退役 → 蒸馏主卡/场景卡/版本快照） | novel-agent |
 
 ### 1.5 调度架构
 
@@ -67,13 +68,15 @@ Skill 入口（主 agent 加载 SKILL.md 后）先做项目状态检测，之后
   ├── 写 order 文件到 .agent/task/{type}-order.md（只含输入/输出路径，不含执行步骤）
   ├── 通过 Agent 工具调度子 agent
   │     ├── setup   → updater          （setting-update-order.md）
+  │     ├── setup   → style-distiller  （style-distill-order.md，作者提供风格样本时）
   │     ├── outline → volume-planner   （volume-plan-order.md）
   │     ├── outline → chapter-planner  （chapter-plan-order.md）
   │     ├── draft   → prompt-crafter   （prompt-craft-order.md）
   │     ├── draft   → writer           （writing-order.md）
   │     ├── anti-ai → anti-ai          （anti-ai-order.md）
   │     ├── review  → reader           （reader-review-order.md，可选）
-  │     └── archive → updater          （archive-order.md / memory-sweep-order.md）
+  │     ├── archive → updater          （archive-order.md / memory-sweep-order.md）
+  │     └── # 卡冻结：归档后无风格增量更新
   ├── 子 agent 完成后将 order 覆盖为 status: DONE
   └── 检测到 order 标记 DONE → 推进下一阶段
 ```
@@ -110,7 +113,7 @@ Skill 入口（主 agent 加载 SKILL.md 后）先做项目状态检测，之后
   │        判定定稿并 Write 生成 archives/*.md（中间稿 .draft.md/.anti-ai.md 保留不删）
   │        chapter.md#status → archived
   │        character-setting 追加角色状态（按 `## vol-N-ch-M` 锚点查重）→ timeline 追加事件（查重）
-  │        快照 vs 定稿 diff → 语义合并到 .claude/knowledge/anti-ai.md / writer-style.md（查重）
+  │        快照 vs 定稿 diff → 语义合并到 .claude/knowledge/anti-ai.md + 动态记忆（writing-memory.md）（查重）
   │        写 {chapter}.done → 推进 status.md → order 标记 DONE
 ```
 
@@ -123,12 +126,15 @@ Skill 入口（主 agent 加载 SKILL.md 后）先做项目状态检测，之后
 ├── story.md              # 项目索引（元信息 + 主线拆纲）
 ├── settings/
 │   ├── world-setting.md  # 世界观
-│   ├── writing-style.md  # 写作风格
+│   ├── writing-style.md  # 写作风格（蒸馏后含量化层主卡）
 │   ├── genre-setting.md  # 题材设定
 │   ├── foreshadowing.md  # 跨卷伏笔全局台账（init 生成空台账 / updater Step 8 维护，从 chapter.md#payoff_plan 汇总）
 │   ├── timeline.md       # 时间线（归档时追加）
-│   └── character-setting/
-│       └── <id>.md       # 每角色一个
+│   ├── character-setting/
+│   │   └── <id>.md       # 每角色一个
+│   ├── style-profiles/   # 分场景风格卡（style-distiller 蒸馏产出：dialogue/fight/group-scene/…）
+│   │   └── genre-baselines/  # 题材风格基线（base/benchmark/delta）
+│   └── .style-versions/  # 蒸馏版本快照（style-distiller 蒸馏时生成）
 ├── volumes/
 │   └── volume-{N}.md     # 卷纲
 ├── chapters/
@@ -136,6 +142,7 @@ Skill 入口（主 agent 加载 SKILL.md 后）先做项目状态检测，之后
 ├── prompts/
 │   └── vol-{N}-ch-{M}-prompt.md  # 6 元素提示词
 ├── sandbox/              # 推演沙盘记录（可选，roleplay-sandbox 产出）
+├── novel-samples/        # 文风蒸馏样本（作者把待学文风的文章放这里，style-distiller 专用）
 ├── archives/
 │   ├── *.draft.md        # 草稿（writer 输出，历史留档）
 │   ├── *.anti-ai.md      # 去 AI 味后版本（历史留档）
@@ -145,8 +152,8 @@ Skill 入口（主 agent 加载 SKILL.md 后）先做项目状态检测，之后
 │   ├── task/             # order 文件（临时，完成后 status→DONE 留存待删）
 │   ├── archiving/        # 归档 checkpoint（{chapter}.done，防重放重复）
 │   └── {chapter}-draft-ai.md  # AI 原版快照（审计基线，归档后保留，靠 .done 标记区分过期）
-├── .claude/ 或 .opencode/
-│   ├── agents/           # Agent 定义（init.py 部署）
+├── .claude/ 或 .opencode/ 或 .zcode/
+│   ├── agents/           # Agent 定义（init.py 部署；zcode 无 agents，agents 即 .zcode/skills/）
 │   ├── knowledge/        # 反 AI 规则 / 文风偏好 / 场景方法论 / 永久记忆 / 格式规范
 │   └── memory/           # 动态写作记忆（volume/chapter/prompt/writing）
 ```
@@ -183,7 +190,8 @@ tools/           # init.py（初始化）、sync-project.py（同步更新）
 
 - **Claude Code**：init.py 部署 agent 定义到 `.claude/agents/`，知识到 `.claude/knowledge/`，建 `.claude/memory/` 动态记忆桩
 - **OpenCode**：init.py 同时部署到 `.opencode/agents/`，OpenCode 自动发现 `@novel-agent` 等
-- **Codex**：init.py 部署 8 个自定义 agent 为 `.codex/agents/*.toml`（TOML 转换产物，引用改写为 `.codex/knowledge|memory`），独立工具为 `.codex/skills/<name>/SKILL.md`；novel-agent 用 `spawn_agent` 调度子 agent
+- **Codex**：init.py 部署 9 个自定义 agent 为 `.codex/agents/*.toml`（TOML 转换产物，引用改写为 `.codex/knowledge|memory`），独立工具为 `.codex/skills/<name>/SKILL.md`；novel-agent 用 `spawn_agent` 调度子 agent
+- **ZCode**：init.py 部署 9 个 agent 为 `.zcode/skills/<name>/SKILL.md`（skill 转换产物，引用改写为 `.zcode/knowledge|memory`；ZCode 无项目级 agents 目录，agents 即 skills，与 Reasonix 同构）；novel-agent 用 `Agent` 工具按 skill 名调度子 agent
 - **安装**：`install.sh` / `install.ps1` 将 skill 装到用户级 skills 目录
 
 ---
@@ -206,8 +214,8 @@ Step 4  验收自检 → 写入 prompts/vol-{N}-ch-{M}-prompt.md
 |--------|------|------|
 | 1 | 约束红线 | 情节红线 / 角色禁区 / 边界禁止，任何压缩不得删红线 |
 | 2 | 字数 | 目标字数硬性约束，超限按"压缩低权重场景 > 高权重场景次要元素"策略 |
-| 3 | T1 词（修饰类） | 突然/竟然/默默/微微，超阈值时保留有叙事功能的 |
-| 4 | 认知动词 | 意识到/发现/明白/感到，必须换外部动作或直接感知，不让步 |
+| 3 | T1 词（修饰类） | 仿佛/一丝/不禁/不由得等（突然/忽然/猛然 属语境敏感类，≤4次/章，红线段落从宽），超阈值时保留有叙事功能的 |
+| 4 | 认知动词 | 意识到/发现/明白/感到，换外部动作或直接感知；关键情绪节点可简要使用（≤2次/章，见 narrative-rules.md 规则 2），其余不让步 |
 | 5 | 感官/X了一下 | 每场景 ≤2 种感官细化（声音线索若为红线关键信息可豁免） |
 | 6 | 写作规范 | 其余写作规范与技法，与以上冲突时自动让步 |
 
@@ -277,7 +285,7 @@ Step 4  验收自检 → 写入 prompts/vol-{N}-ch-{M}-prompt.md
 3. 场景重叠 → 扩展已有条目场景范围
 4. 冲突 → 询问作家确认
 
-结果写入 `.claude/knowledge/anti-ai.md` 和 `writer-style.md`，标注 `[writer-preference]`。
+结果写入 `.claude/knowledge/anti-ai.md` 和写作记忆（`.claude/memory/writing-memory.md`），标注 `[writer-preference]`。
 
 ---
 
@@ -337,5 +345,5 @@ Phase 4  报告   字数变化 + 修改统计 + 前后对比
 - **`.agent/archiving/{chapter}.done`** — 归档完成 checkpoint，重派时从断点继续，防 append 重放重复
 - **`.claude/memory/*.md`** — 追加写入，不覆盖
 - **novel-agent** — 不用 Bash、不写内容文件、不越权代劳、绝不访问项目外路径
-- **设定写入** — settings/ 必须经 updater（setting-update 模式），novel-agent 不得直接写
+- **设定写入** — settings/ 必须经 updater（setting-update 模式），novel-agent 不得直接写。例外：style-distiller 拥有 settings/writing-style.md、settings/style-profiles/、settings/.style-versions/ 专属写白名单，其余 settings 仍归 updater
 - **作家本地记录优先于 references defaults**
