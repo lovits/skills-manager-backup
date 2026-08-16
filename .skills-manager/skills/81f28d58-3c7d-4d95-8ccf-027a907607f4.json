@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "81f28d58-3c7d-4d95-8ccf-027a907607f4",
+  "path": "contributor",
+  "path_key": "contributor",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "local",
+    "ref": null,
+    "subpath": null,
+    "branch": null
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "6d0bd15f-ad47-464a-b01a-ea0e57f8c800",
+  "path": "asu",
+  "path_key": "asu",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "local",
+    "ref": null,
+    "subpath": null,
+    "branch": null
+  }
+}
