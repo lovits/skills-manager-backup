@@ -13,6 +13,7 @@
     "hermes": true,
     "openclaw": true,
     "opencode": true,
+    "pi": false,
     "workbuddy": true
   }
 }
