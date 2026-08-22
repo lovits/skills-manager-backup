@@ -10,7 +10,7 @@
   "source": {
     "type": "git",
     "ref": "https://github.com/Yeachan-Heo/oh-my-codex",
-    "subpath": "skills/ecomode",
+    "subpath": "skills",
     "branch": null
   }
 }
