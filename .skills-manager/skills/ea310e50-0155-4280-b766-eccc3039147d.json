@@ -10,7 +10,7 @@
   "source": {
     "type": "git",
     "ref": "https://github.com/mattpocock/skills",
-    "subpath": "skills/engineering/resolving-merge-conflicts",
+    "subpath": "skills",
     "branch": null
   }
 }

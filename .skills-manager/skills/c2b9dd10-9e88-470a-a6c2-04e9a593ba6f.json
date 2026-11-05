@@ -11,7 +11,7 @@
   "source": {
     "type": "git",
     "ref": "https://github.com/Imbad0202/academic-research-skills",
-    "subpath": "skills/academic-paper",
+    "subpath": null,
     "branch": null
   }
 }
