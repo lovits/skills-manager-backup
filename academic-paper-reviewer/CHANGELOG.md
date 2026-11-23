@@ -14,6 +14,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- **Conflicting Crossref notices with the same latest timestamp now yield `disputed` (#1150).** When a retraction and a reinstatement for the cited DOI share the latest timestamp, either input order produces the same verdict.
+
 - **`academic-paper` `full` mode Phase 6 review inputs name the Phase 5a Corrected Draft for the first review and the writer's Revised Draft with its Revision Log for later rounds (#1136).** `academic-paper/SKILL.md` (Phase 6a overview and Phase 6b user content) and `academic-paper/agents/peer_reviewer_agent.md` (Complete Review Workflow input and Phase 6a/6b contract prompts) previously named the Phase 4b draft (or Complete Draft), contradicting `peer_reviewer_agent.md`'s Input Sources table after #1068. Prompt-level; unmeasured.
 
 - **The `academic-paper` mode guide's committee branch names resubmission organization, as the Activation gate does (#1123 point 5, contributed by @TanmayShah29).** A new test in `scripts/test_check_committee_correspondence.py` checks that the decision tree's committee line and the gate list the same three requests.
@@ -24,6 +26,8 @@ All notable changes to this project will be documented in this file.
 - **The `academic-paper` full-mode Phase 6a evaluator prompt now allows the paper-blind #684 pointer authority in its lint instructions (#1143, reported by @Imbad0202).** This agrees with the instruction to reproduce the supplied `INTERNAL` binding marker after the Scoring Plan. Prompt-level; unmeasured.
 
 - **The `academic-paper` formatter's two #1071 quality-gate exceptions now apply only to an item that a reported incoming mismatch requires it to keep (#1152, reported by @Imbad0202).** In the `Format compliance` and `Journal requirements` rows, the sentence from #1127 could be read as letting any citation left verbatim pass, including one the formatter failed to convert; the condition now comes first and covers both the retained citation and the preserved reference-list entry. The earlier wording came from the maintainer's review of #1127. Prompt-level; unmeasured.
+
+- **The `academic-paper` formatter's Step 4 format compliance check now accepts a reference-list entry that a reported incoming mismatch requires it to preserve in `full` mode (#1155, contributed by @pinjun99).** Step 4 now applies the same exception as the Format compliance quality gate to both that entry and a citation the mismatch requires retaining verbatim. Prompt-level; unmeasured.
 
 ## [3.24.4] - 2026-11-19 — A committee-correspondence variant scoped to research ethics review, below-consensus findings in the roadmap and letter, and GPT-6.2 Astra as the recommended OpenAI verifier
 
