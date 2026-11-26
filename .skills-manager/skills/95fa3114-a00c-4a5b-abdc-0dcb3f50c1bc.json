@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "skill_id": "95fa3114-a00c-4a5b-abdc-0dcb3f50c1bc",
+  "path": "learn-by-questioning",
+  "path_key": "learn-by-questioning",
+  "enabled": true,
+  "tags": [],
+  "source": {
+    "type": "local",
+    "ref": null,
+    "subpath": null,
+    "branch": null
+  }
+}
